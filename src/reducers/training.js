@@ -1,3 +1,5 @@
+import { END_TIMER } from '../actions';
+
 const initialState = {
   currentSet: 1,
   currentRep: 1,
@@ -5,5 +7,10 @@ const initialState = {
 };
 
 const training = (state = initialState, action) => {
-
+  switch(action.type) {
+    case END_TIMER:
+      
+    default:
+      return state;
+  }
 };

@@ -2,7 +2,7 @@ import { TOGGLE_TIMER, SET_TIME } from '../actions';
 
 const initialState = {
   time: 0,
-  paused: true,
+  active: false,
 };
 
 const timer = (state = initialState, action) => {
@@ -10,7 +10,7 @@ const timer = (state = initialState, action) => {
     case TOGGLE_TIMER:
       return ({
         ...state,
-        paused: !state.paused,
+        active: !state.active,
       });
     case SET_TIME:
       return ({

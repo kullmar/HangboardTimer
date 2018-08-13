@@ -10,7 +10,7 @@ export default StyleSheet.create({
     fontSize: 40,
     color: 'green',
   },
-  paused: {
+  resting: {
     color: 'red',
   },
 });

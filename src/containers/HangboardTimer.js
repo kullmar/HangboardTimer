@@ -2,12 +2,17 @@ import { toggleTimer } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 
+class HangboardTimer extends Component {
+  
+}
+
 const mapStateToProps = state => {
-  console.log(state);
-  const { time, paused } = state.timer;
+  const {
+    timer: { time, active},
+  } = state;
   return {
     time,
-    paused,
+    active,
   };
 };
 
@@ -19,7 +24,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const HangboardTimer = connect(
+HangboardTimer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Timer);

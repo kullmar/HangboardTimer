@@ -18,12 +18,12 @@ const formatTime = (time) => {
   return `${minutes}${seconds}:${milliseconds}`;
 }
 
-export default function Timer({ time, paused, onPauseClick }) {
+export default function Timer({ time, active, onPauseClick }) {
   const timeFormatted = formatTime(time);
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.text, paused && styles.paused]}>
+      <Text style={[styles.text, !active && styles.resting]}>
         {timeFormatted}
       </Text>
       <Button onPress={onPauseClick} title="Pause" />
@@ -33,5 +33,5 @@ export default function Timer({ time, paused, onPauseClick }) {
 
 Timer.propTypes = {
   time: PropTypes.number,
-  resting: PropTypes.bool,
+  active: PropTypes.bool,
 };
