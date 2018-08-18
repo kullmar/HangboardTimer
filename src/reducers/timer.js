@@ -1,22 +1,31 @@
-import { TOGGLE_TIMER, SET_TIME } from '../actions';
+import { TIMER_TOGGLE, TIMER_SET, TIMER_TICK } from '../actions';
 
 const initialState = {
-  time: 0,
   active: false,
+  completed: false,
+  lastActionAt: undefined,
+  timeRemaining: 0,
 };
 
 const timer = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_TIMER:
+    case TIMER_TOGGLE:
       return ({
         ...state,
         active: !state.active,
+        lastActionAt: action.now,
       });
-    case SET_TIME:
+    case TIMER_SET:
       return ({
         ...state,
-        time: action.time,
+        timeRemaining: action.time,
       });
+    case TIMER_TICK:
+      return({
+        ...state,
+        lastActionAt: action.now,
+        timeRemaining: state.timeRemaining - (action.now - state.lastActionAt),
+      })
     default:
       return state;
   }

@@ -1,15 +1,23 @@
-export const TOGGLE_TIMER = 'TOGGLE_TIMER';
-export const END_TIMER = 'END_TIMER';
-export const SET_TIME = 'SET_TIME';
-export const SKIP_SET = 'SKIP_SET';
-export const INCREMENT_REP = 'INCREMENT_REP';
-export const TOGGLE_REST = 'TOGGLE_REST';
+/**
+ * Timer actions
+ */
+export const TIMER_SET = 'TIMER_SET';
+export const TIMER_TICK = 'TIMER_TICK';
+export const TIMER_TOGGLE = 'TIMER_TOGGLE';
 
-export const setTime = (time) => ({
-  type: SET_TIME,
+/**
+ * Timer action creators
+ */
+export const setTimer = (time) => ({
+  type: TIMER_SET,
+  now: Date.now(),
   time,
 });
-export const endTimer = () => ({ type: END_TIMER });
-export const incrementRep = () => ({ type: INCREMENT_REP });
-export const toggleTimer = () => ({ type: TOGGLE_TIMER });
-export const skipSet = () => ({ type: SKIP_SET });
+export const tickTimer = () => ({
+  type: TIMER_TICK,
+  now: Date.now(),
+});
+export const toggleTimer = () => ({
+  type: TIMER_TOGGLE,
+  now: Date.now(),
+});

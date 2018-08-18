@@ -18,7 +18,7 @@ const formatTime = (time) => {
   return `${minutes}${seconds}:${milliseconds}`;
 }
 
-export default function Timer({ time, active, onPauseClick }) {
+export default function Timer({ time, active, onToggle }) {
   const timeFormatted = formatTime(time);
 
   return (
@@ -26,7 +26,7 @@ export default function Timer({ time, active, onPauseClick }) {
       <Text style={[styles.text, !active && styles.resting]}>
         {timeFormatted}
       </Text>
-      <Button onPress={onPauseClick} title="Pause" />
+      <Button onPress={onToggle} title={active ? "Pause" : "Start"} />
     </View>
   );
 }
