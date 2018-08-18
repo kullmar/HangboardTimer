@@ -1,8 +1,7 @@
-import { TIMER_TOGGLE, TIMER_SET, TIMER_TICK } from '../actions';
+import { TIMER_TOGGLE, TIMER_SET, TIMER_TICK, TIMER_COMPLETE } from '../actions';
 
 const initialState = {
   active: false,
-  completed: false,
   lastActionAt: undefined,
   timeRemaining: 0,
 };

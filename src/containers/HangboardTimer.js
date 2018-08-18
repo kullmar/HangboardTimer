@@ -13,10 +13,15 @@ class HangboardTimer extends Component {
     this.stop();
   }
 
-  start = () => {
+  isTimeZero() {
+    return this.props.timeRemaining <= 0;
+  }
+
+  start() {
+    if (this.interval) return;
     this.interval = setInterval(() => {
       if (this.props.active) this.props.tick();
-    }, 33);
+    }, 50);
   }
 
   stop() {
@@ -28,6 +33,7 @@ class HangboardTimer extends Component {
 
   render() {
     const { timeRemaining, active } = this.props;
+
     return(
       <Timer
         time={timeRemaining}
