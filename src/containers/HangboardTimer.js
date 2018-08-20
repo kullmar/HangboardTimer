@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { toggleTimer, tickTimer, setTimer } from '../actions';
+import { toggleTimer, tickTimer, setTimer, completeTimer } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 
 class HangboardTimer extends Component {
   componentDidMount() {
-    this.props.setTimer(10000);
+    this.props.setTimer(this.props.duration*1000);
     if (this.props.active) this.start();
   }
 
@@ -17,6 +17,9 @@ class HangboardTimer extends Component {
     if (prevProps.active !== this.props.active) {
       this.props.active ? this.start() : this.stop();
     }
+    if (prevProps.resting !== this.props.resting) {
+      this.props.setTimer(this.props.duration*1000);
+    }
   }
 
   isTimeZero() {
@@ -27,9 +30,9 @@ class HangboardTimer extends Component {
     if (this.interval) return;
     this.interval = setInterval(() => {
       if (this.isTimeZero()) {
-        this.props.setTimer(10000);
+        this.props.completeTimer();
       }
-      if (this.props.active) this.props.tick();
+      this.props.tick();
     }, 50);
   }
 
@@ -56,16 +59,20 @@ class HangboardTimer extends Component {
 const mapStateToProps = state => {
   const {
     timer: { active, timeRemaining},
+    training: { duration, resting },
   } = state;
   return {
     timeRemaining,
     active,
+    duration,
+    resting,
   };
 };
 
 export default connect(
   mapStateToProps,
   {
+    completeTimer,
     setTimer,
     tick: tickTimer,
     toggleTimer,

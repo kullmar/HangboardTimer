@@ -25,3 +25,7 @@ export const toggleTimer = () => ({
 export const completeTimer = () => ({
   type: TIMER_COMPLETE,
 });
+
+/**
+ * Training actions
+ */
