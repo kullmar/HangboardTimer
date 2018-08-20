@@ -6,11 +6,17 @@ import Timer from '../components/Timer';
 class HangboardTimer extends Component {
   componentDidMount() {
     this.props.setTimer(10000);
-    this.start();
+    if (this.props.active) this.start();
   }
 
   componentWillUnmount() {
     this.stop();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.active !== this.props.active) {
+      this.props.active ? this.start() : this.stop();
+    }
   }
 
   isTimeZero() {
@@ -20,6 +26,9 @@ class HangboardTimer extends Component {
   start() {
     if (this.interval) return;
     this.interval = setInterval(() => {
+      if (this.isTimeZero()) {
+        this.props.setTimer(10000);
+      }
       if (this.props.active) this.props.tick();
     }, 50);
   }
