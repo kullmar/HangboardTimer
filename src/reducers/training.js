@@ -10,6 +10,7 @@ const initialState = {
 const training = (state = initialState, action) => {
   switch(action.type) {
     case TIMER_COMPLETE:
+      
       return ({
         ...state,
         resting: !state.resting,

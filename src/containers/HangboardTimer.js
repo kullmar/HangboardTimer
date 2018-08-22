@@ -37,10 +37,9 @@ class HangboardTimer extends Component {
   }
 
   stop() {
-    if (this.interval) {
-      clearInterval(this.interval)
-      this.interval = null;
-    }
+    if (!this.interval) return;
+    clearInterval(this.interval)
+    this.interval = null;
   }
 
   render() {
