@@ -8,7 +8,7 @@ const initialState = {
   routine: defaultRoutine,
   currentSet: 1,
   currentRep: 1,
-  nextInitialTime: defaultRoutine.sets[0].rest,
+  nextInitialTime: defaultRoutine.sets[0].restTime,
   resting: false,
 };
 
@@ -19,18 +19,18 @@ const workout = (state = initialState, action) => {
       if (!state.resting) {
         return ({
           ...state,
-          nextInitialTime: set.restTime,
+          nextInitialTime: set.hangTime,
           resting: !state.resting,
         });
       }
       const shouldIncrementSet = state.currentRep % set.reps === 0 ? true : false;
-      const newRep = shouldIncrementSet ? 1 : state.currentRep % set.reps;
+      const newRep = shouldIncrementSet ? 1 : state.currentRep % set.reps + 1;
       const newSet = shouldIncrementSet ? state.currentSet + 1 : state.currentSet;
       return ({
         ...state,
         currentRep: newRep,
         currentSet: newSet,
-        nextInitialTime: set.hangTime,
+        nextInitialTime: newRep === set.reps ? set.finalRest : set.restTime,
         resting: !state.resting,
       });
     default:
@@ -50,7 +50,7 @@ function createRoutine(profile) {
     name, sets, hangTime, restTime, warmupSets, exercises,
   } = profile;
   const baseSet = {
-    finalRest: 180,
+    finalRest: 180000,
     hangTime,
     restTime,
     reps: 7,
