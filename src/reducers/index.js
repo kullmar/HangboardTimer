@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import timer from './timer';
-import training from './training';
-import routine from './routine';
+import workout, * as fromWorkout from './workout';
 
 export default combineReducers({
-  routine,
   timer,
-  training,
+  workout,
 });
+
+export const getInitialTime = state => fromWorkout.getInitialTime(state.workout);

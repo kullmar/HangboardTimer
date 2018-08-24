@@ -3,11 +3,19 @@ import { View } from 'react-native';
 import { toggleTimer, tickTimer, setTimer, completeTimer } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
+import { getInitialTime } from '../reducers';
 import HangboardTextContainer from './HangboardTextContainer';
 
-class HangboardTimer extends Component {
+
+class HangboardTimerLocal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timeRemaining: this.props.initialTime,
+    };
+  }
+
   componentDidMount() {
-    this.props.setTimer(this.props.duration*1000);
     if (this.props.active) this.start();
   }
 
@@ -19,24 +27,25 @@ class HangboardTimer extends Component {
     if (prevProps.active !== this.props.active) {
       this.props.active ? this.start() : this.stop();
     }
-    if (prevProps.resting !== this.props.resting) {
-      this.props.setTimer(this.props.duration*1000);
-      this.start();
-    }
   }
 
   isTimeZero() {
-    return this.props.timeRemaining <= 0;
+    return this.state.timeRemaining <= 0;
   }
 
   start() {
     if (this.interval) return;
+    this.lastActionAt = Date.now();
     this.interval = setInterval(() => {
       if (this.isTimeZero()) {
         this.stop();
+        this.setState({
+          timeRemaining: this.props.nextInitialTime,
+        });
+        this.start();
         this.props.completeTimer();
       }
-      this.props.tick();
+      this.tick();
     }, 50);
   }
 
@@ -46,8 +55,17 @@ class HangboardTimer extends Component {
     this.interval = null;
   }
 
+  tick() {
+    const now = Date.now();
+    this.setState(prevState => ({
+      timeRemaining: prevState.timeRemaining - (now - this.lastActionAt)
+    }));
+    this.lastActionAt = now;
+  }
+
   render() {
-    const { timeRemaining, active } = this.props;
+    const { active } = this.props;
+    const { timeRemaining } = this.state;
 
     return(
       <View style={{flex: 1}}>
@@ -65,12 +83,14 @@ class HangboardTimer extends Component {
 const mapStateToProps = state => {
   const {
     timer: { active, timeRemaining},
-    training: { duration, resting },
+    workout: { nextInitialTime, resting },
   } = state;
+  const initialTime = getInitialTime(state);
   return {
     timeRemaining,
     active,
-    duration,
+    initialTime,
+    nextInitialTime,
     resting,
   };
 };
@@ -83,4 +103,4 @@ export default connect(
     tick: tickTimer,
     toggleTimer,
   },
-)(HangboardTimer);
+)(HangboardTimerLocal);

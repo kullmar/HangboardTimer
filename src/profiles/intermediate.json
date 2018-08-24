@@ -2,8 +2,8 @@
   "name": "Intermediate Hangboard Routine",
   "board": "Beastmaker 1000",
   "sets": 2,
-  "hangTime": 7,
-  "rest": 3,
+  "hangTime": 7000,
+  "restTime": 3000,
   "warmupSets": 1,
   "exercises": [
     {

@@ -3,6 +3,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './src/reducers';
 import HangboardTimer from './src/containers/HangboardTimer';
+import HangboardTimerLocal from './src/containers/HangboardTimerLocal';
 
 const middlewares = [];
 
@@ -18,7 +19,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <HangboardTimer />
+        <HangboardTimerLocal />
       </Provider>
     );
   }
