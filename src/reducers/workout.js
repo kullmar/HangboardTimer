@@ -1,4 +1,4 @@
-import { TIMER_COMPLETE } from '../actions';
+import { TIMER_COMPLETE, SET_SKIP, SET_PREVIOUS } from '../actions';
 
 import defaultProfile from '../profiles/intermediate.json';
 
@@ -13,9 +13,9 @@ const initialState = {
 };
 
 const workout = (state = initialState, action) => {
+  const set = getCurrentSet(state);
   switch(action.type) {
     case TIMER_COMPLETE:
-      const set = getCurrentSet(state);
       if (!state.resting) {
         return ({
           ...state,
@@ -33,6 +33,14 @@ const workout = (state = initialState, action) => {
         nextInitialTime: newRep === set.reps ? set.finalRest : set.restTime,
         resting: !state.resting,
       });
+    case SET_SKIP:
+      return({
+        ...state,
+        currentRep: set.reps,
+        nextInitialTime: state.routine.sets[state.currentSet].finalRest,
+        resting: true,
+      });
+    case SET_PREVIOUS:
     default:
       return state;
   }
@@ -42,7 +50,7 @@ export default workout;
 
 const getCurrentSet = state => state.routine.sets[state.currentSet - 1];
 
-export const getInitialTime = state => state.routine.sets[0].hangTime;
+export const getInitialTime = state => state.routine.sets[state.currentSet].hangTime;
 
 function createRoutine(profile) {
   if (!profile) return;

@@ -29,3 +29,15 @@ export const completeTimer = () => ({
 /**
  * Training actions
  */
+export const SET_SKIP = 'SET_SKIP';
+export const SET_PREVIOUS = 'SET_PREVIOUS';
+
+/**
+ * Training action creators
+ */
+export const skipSet = () => ({
+  type: SET_SKIP,
+});
+export const previousSet = () => ({
+  type: SET_PREVIOUS,
+});

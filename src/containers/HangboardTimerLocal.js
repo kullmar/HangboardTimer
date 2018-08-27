@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { toggleTimer, tickTimer, setTimer, completeTimer } from '../actions';
+import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 import { getInitialTime } from '../reducers';
 import HangboardTextContainer from './HangboardTextContainer';
+import HangboardControls from '../components/HangboardControls';
 
 
 class HangboardTimerLocal extends Component {
@@ -75,6 +76,7 @@ class HangboardTimerLocal extends Component {
           onToggle={this.props.toggleTimer}
         />
         <HangboardTextContainer />
+        <HangboardControls onNextSet={this.props.skipSet} />
       </View>
     )
   }
@@ -100,6 +102,7 @@ export default connect(
   {
     completeTimer,
     setTimer,
+    skipSet,
     tick: tickTimer,
     toggleTimer,
   },
