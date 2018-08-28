@@ -5,14 +5,7 @@ import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
 import HangboardControls from '../components/HangboardControls';
-
-/**
- * Returns the exercise for given set.
- * @param  {[type]} routine   [description]
- * @param  {[type]} setNumber [description]
- * @return {[type]}           [description]
- */
-const getExercise = (routine, setNumber) => routine.sets[setNumber - 1];
+import { getExercise } from '../utils';
 
 class HangboardTimerLocal extends Component {
   constructor(props) {
@@ -64,7 +57,6 @@ class HangboardTimerLocal extends Component {
   shouldIncrementSet() {
     const { currentRep } = this.state;
     const exercise = this.getCurrentExercise();
-    console.log(exercise);
     return currentRep % exercise.reps === 0;
   }
 

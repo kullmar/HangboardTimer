@@ -1,4 +1,5 @@
 import { TIMER_COMPLETE, SET_SKIP, SET_PREVIOUS } from '../actions';
+import { createRoutine } from '../utils';
 
 import defaultProfile from '../profiles/intermediate.json';
 
@@ -48,36 +49,3 @@ const getCurrentSet = state => state.routine.sets[state.currentSet - 1];
 
 export const getInitialTime = state => state.routine.sets[state.currentSet].hangTime;
 
-function createRoutine(profile) {
-  if (!profile) return;
-  const {
-    name, sets, hangTime, restTime, warmupSets, exercises,
-  } = profile;
-  const baseSet = {
-    finalRest: 180000,
-    hangTime,
-    restTime,
-    reps: 7,
-  };
-  const routine = {}
-  routine.name = name;
-  routine.sets = [];
-  exercises.forEach((exercise, index) => {
-    let repsMultiplier = 1;
-    let weightMultiplier = 5;
-    let numSets = sets;
-    if (index === 0) {
-      repsMultiplier = 2;
-      weightMultiplier = 10;
-      numSets = warmupSets;
-    }
-    for (let i = 0; i < numSets; ++i) {
-      const set = Object.assign({}, baseSet);
-      set.reps -= repsMultiplier * i;
-      set.grip = exercise.grip;
-      set.weight = exercise.baseline + i * weightMultiplier;
-      routine.sets.push(set);
-    }
-  });
-  return routine;
-}
