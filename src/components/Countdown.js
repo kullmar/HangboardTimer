@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text as AnimatableText } from 'react-native-animatable';
 
 class Countdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      counter: this.props.seconds
+      counter: this.props.seconds,
     };
   }
 
