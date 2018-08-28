@@ -3,16 +3,27 @@ import { View } from 'react-native';
 import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
-import { getInitialTime } from '../reducers';
 import HangboardTextContainer from './HangboardTextContainer';
 import HangboardControls from '../components/HangboardControls';
 
+/**
+ * Returns the exercise for given set.
+ * @param  {[type]} routine   [description]
+ * @param  {[type]} setNumber [description]
+ * @return {[type]}           [description]
+ */
+const getExercise = (routine, setNumber) => routine.sets[setNumber - 1];
 
 class HangboardTimerLocal extends Component {
   constructor(props) {
     super(props);
+    const { routine } = this.props;
+    const exercise = getExercise(routine, 1);
     this.state = {
-      timeRemaining: this.props.initialTime,
+      currentRep: 1,
+      currentSet: 1,
+      resting: false,
+      timeRemaining: exercise.hangTime,
     };
   }
 
@@ -30,8 +41,50 @@ class HangboardTimerLocal extends Component {
     }
   }
 
+  getCurrentExercise() {
+    const { routine } = this.props;
+    const { currentSet } = this.state;
+    return getExercise(routine, currentSet);
+  }
+
+  getNextTime() {
+    const { currentRep, currentSet } = this.state;
+    const exercise = this.getCurrentExercise();
+    if (!this.state.resting) {
+      return currentRep === exercise.reps ? exercise.finalRest : exercise.restTime;
+    }
+    const nextSet = this.shouldIncrementSet() ? currentSet + 1 : currentSet;
+    return getExercise(this.props.routine, nextSet).hangTime;
+  }
+
   isTimeZero() {
     return this.state.timeRemaining <= 0;
+  }
+
+  shouldIncrementSet() {
+    const { currentRep } = this.state;
+    const exercise = this.getCurrentExercise();
+    console.log(exercise);
+    return currentRep % exercise.reps === 0;
+  }
+
+  handlePrevious = () => {
+    this.setState({
+      currentRep: 1,
+      resting: false,
+      timeRemaining: this.getCurrentExercise().hangTime,
+    });
+  }
+
+  handleSkip = () => {
+    const exercise = this.getCurrentExercise();
+    const currentRep = exercise.reps;
+    const timeRemaining = exercise.finalRest;
+    this.setState({
+      currentRep,
+      resting: true,
+      timeRemaining,
+    });
   }
 
   start() {
@@ -40,11 +93,13 @@ class HangboardTimerLocal extends Component {
     this.interval = setInterval(() => {
       if (this.isTimeZero()) {
         this.stop();
-        this.setState({
-          timeRemaining: this.props.nextInitialTime,
-        });
+        this.setState(prevState => ({
+          currentRep: this.shouldIncrementSet() ? 1 : prevState.currentRep + 1,
+          currentSet: this.shouldIncrementSet() ? prevState.currentSet + 1 : prevState.currentSet,
+          timeRemaining: this.getNextTime(),
+          resting: !prevState.resting,
+        }));
         this.start();
-        this.props.completeTimer();
       }
       this.tick();
     }, 50);
@@ -76,7 +131,7 @@ class HangboardTimerLocal extends Component {
           onToggle={this.props.toggleTimer}
         />
         <HangboardTextContainer />
-        <HangboardControls onNextSet={this.props.skipSet} />
+        <HangboardControls onNextSet={this.handleSkip} onPreviousSet={this.handlePrevious} />
       </View>
     )
   }
@@ -84,16 +139,12 @@ class HangboardTimerLocal extends Component {
 
 const mapStateToProps = state => {
   const {
-    timer: { active, timeRemaining},
-    workout: { nextInitialTime, resting },
+    timer: { active },
+    workout: { routine },
   } = state;
-  const initialTime = getInitialTime(state);
   return {
-    timeRemaining,
     active,
-    initialTime,
-    nextInitialTime,
-    resting,
+    routine,
   };
 };
 

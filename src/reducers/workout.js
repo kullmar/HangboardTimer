@@ -8,7 +8,6 @@ const initialState = {
   routine: defaultRoutine,
   currentSet: 1,
   currentRep: 1,
-  nextInitialTime: defaultRoutine.sets[0].restTime,
   resting: false,
 };
 
@@ -19,7 +18,6 @@ const workout = (state = initialState, action) => {
       if (!state.resting) {
         return ({
           ...state,
-          nextInitialTime: set.hangTime,
           resting: !state.resting,
         });
       }
@@ -30,14 +28,12 @@ const workout = (state = initialState, action) => {
         ...state,
         currentRep: newRep,
         currentSet: newSet,
-        nextInitialTime: newRep === set.reps ? set.finalRest : set.restTime,
         resting: !state.resting,
       });
     case SET_SKIP:
       return({
         ...state,
         currentRep: set.reps,
-        nextInitialTime: state.routine.sets[state.currentSet].finalRest,
         resting: true,
       });
     case SET_PREVIOUS:
