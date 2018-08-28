@@ -6,6 +6,7 @@ import Countdown from '../components/Countdown';
 import HangboardControls from '../components/HangboardControls';
 import HangboardText from '../components/HangboardText';
 import Routine from '../components/Routine';
+import Set from '../components/Set';
 import { createRoutine } from '../utils';
 
 import defaultProfile from '../profiles/intermediate.json';
@@ -26,3 +27,8 @@ storiesOf('Routine', module)
   .add('Default', () => (
     <Routine routine={defaultRoutine} />
   ));
+
+  storiesOf('Set', module)
+    .add('Default', () => (
+      <Set set={defaultRoutine.sets[0]} />
+    ));

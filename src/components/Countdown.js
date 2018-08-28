@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Text as AnimatableText } from 'react-native-animatable';
 
 class Countdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      counter: this.props.seconds,
+      counter: this.props.seconds
     };
   }
 
   componentDidMount() {
     this.interval = setInterval(() => {
       this.setState(prevState => ({
-        counter: prevState.counter - 1,
+        counter: prevState.counter - 1
       }));
       if (this.state.counter <= 0) {
         clearInterval(this.interval);
@@ -30,9 +31,16 @@ class Countdown extends Component {
     const { counter } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.countdownText}>{counter}</Text>
+        <AnimatableText
+          key={this.state.counter}
+          animation="fadeOut"
+          ease="easeIn"
+          style={styles.countdownText}
+        >
+          {counter === 0 ? 'Go!' : counter}
+        </AnimatableText>
       </View>
-    )
+    );
   }
 }
 
@@ -46,10 +54,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   countdownText: {
     fontSize: 60,
-    color: 'orange',
-  },
+    color: 'orange'
+  }
 });
