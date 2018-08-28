@@ -13,13 +13,33 @@ const SOUND_KEY_TICK = 'tick';
 
 class HangboardSound extends Component {
   componentDidMount() {
-      this.sounds = { }
+  }
+
+  loadSound(sound) {
+
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.time !== this.props.time) {
-
+    if (prevProps.seconds !== this.props.seconds) {
+      if (this.props.seconds > 10) return;
+      switch(this.props.seconds) {
+        case 3:
+          this.playSound(SOUND_KEY_THREE);
+          break;
+        case 2:
+          this.playSound(SOUND_KEY_TWO);
+          break;
+        case 1:
+          this.playSound(SOUND_KEY_ONE);
+          break;
+        default:
+          this.playSound(SOUND_KEY_TICK);
+      }
     }
+  }
+
+  playSound(sound) {
+
   }
 
   render() {
