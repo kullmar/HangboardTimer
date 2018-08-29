@@ -126,7 +126,7 @@ class HangboardTimerLocal extends Component {
         />
         <HangboardTextContainer />
         <HangboardControls onNextSet={this.handleSkip} onPreviousSet={this.handlePrevious} />
-        <HangboardSound seconds={timeInSeconds} />
+        <HangboardSound seconds={timeInSeconds} active={active} />
       </View>
     )
   }

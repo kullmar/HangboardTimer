@@ -8,10 +8,15 @@ const mapStateToProps = state => {
   const exercise = getExercise(routine, currentSet);
   const { grip, weight, reps } = exercise;
   const sets = routine.sets.length;
+  const nextExercise = getExercise(routine, currentSet + 1);
+  const nextGrip = nextExercise.grip;
+  const nextWeight = nextExercise.weight;
   return {
     currentRep,
     currentSet,
     grip,
+    nextGrip,
+    nextWeight,
     totalReps: reps,
     totalSets: sets,
     weight,
