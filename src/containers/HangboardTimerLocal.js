@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
 import HangboardControls from '../components/HangboardControls';
+import HangboardSound from '../components/HangboardSound';
 import { getExercise } from '../utils';
 
 class HangboardTimerLocal extends Component {
@@ -114,6 +115,7 @@ class HangboardTimerLocal extends Component {
   render() {
     const { active } = this.props;
     const { timeRemaining } = this.state;
+    const timeInSeconds = Math.ceil(timeRemaining / 1000);
 
     return(
       <View style={{flex: 1}}>
@@ -124,6 +126,7 @@ class HangboardTimerLocal extends Component {
         />
         <HangboardTextContainer />
         <HangboardControls onNextSet={this.handleSkip} onPreviousSet={this.handlePrevious} />
+        <HangboardSound seconds={timeInSeconds} />
       </View>
     )
   }
