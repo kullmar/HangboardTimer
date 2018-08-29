@@ -2,8 +2,6 @@ import React from 'react';
 import { Text, View, Button } from 'react-native';
 import PropTypes from 'prop-types';
 
-import styles from './styles';
-
 const formatTime = (time) => {
   if (time < 0) {
     time = 0;
@@ -35,3 +33,18 @@ Timer.propTypes = {
   time: PropTypes.number,
   active: PropTypes.bool,
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 40,
+    color: 'green',
+  },
+  resting: {
+    color: 'red',
+  },
+});
