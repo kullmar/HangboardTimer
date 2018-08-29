@@ -1,6 +1,11 @@
 import { Component } from 'react';
 import Sound from 'react-native-sound';
 
+import one from '../assets/sounds/one.wav';
+import two from '../assets/sounds/two.wav';
+import three from '../assets/sounds/three.wav';
+import tick from '../assets/sounds/tick.wav';
+
 const SOUND_KEY_ONE = 'one';
 const SOUND_KEY_TWO = 'two';
 const SOUND_KEY_THREE = 'three';
@@ -10,10 +15,10 @@ class HangboardSound extends Component {
   componentDidMount() {
     this.sounds = {};
     this.isFirstSound = true;
-    this.loadSound('one.wav', SOUND_KEY_ONE);
-    this.loadSound('two.wav', SOUND_KEY_TWO);
-    this.loadSound('three.wav', SOUND_KEY_THREE);
-    this.loadSound('tick.wav', SOUND_KEY_TICK);
+    this.loadSound(one, SOUND_KEY_ONE);
+    this.loadSound(two, SOUND_KEY_TWO);
+    this.loadSound(three, SOUND_KEY_THREE);
+    this.loadSound(tick, SOUND_KEY_TICK);
   }
 
   componentDidUpdate(prevProps) {
@@ -44,7 +49,7 @@ class HangboardSound extends Component {
   }
 
   loadSound(sound, soundKey) {
-    const soundObj = new Sound(sound, Sound.MAIN_BUNDLE, error => {
+    const soundObj = new Sound(sound, error => {
       if (error) {
         console.log('Failed to load the sound', error);
         return;

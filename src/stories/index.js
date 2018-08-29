@@ -8,6 +8,7 @@ import HangboardText from '../components/HangboardText';
 import Routine from '../components/Routine';
 import Set from '../components/Set';
 import Timer from '../components/Timer';
+import UpdateBaseline from '../components/UpdateBaseline';
 import { createRoutine } from '../utils';
 
 import defaultProfile from '../profiles/intermediate.json';
@@ -40,4 +41,9 @@ storiesOf('Timer', module)
   ))
   .add('inactive', () => (
     <Timer time={9999} active={false} />
+  ));
+
+storiesOf('UpdateBaseline', module)
+  .add('10 baseline', () => (
+    <UpdateBaseline grip="IMR 1-pad pocket" baseline={10} />
   ));

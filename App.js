@@ -7,25 +7,25 @@ import HangboardTimerLocal from './src/containers/HangboardTimerLocal';
 import RoutineContainer from './src/containers/RoutineContainer';
 import StorybookUI from './storybook';
 
-// export default StorybookUI;
-
-const middlewares = [];
-
-if (process.env.NODE_ENV === `development`) {
-  const { logger } = require(`redux-logger`);
-
-  middlewares.push(logger);
-}
-
-const store = compose(applyMiddleware(...middlewares))(createStore)(rootReducer);
-
-export default class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        {/* <RoutineContainer /> */}
-        <HangboardTimerLocal />
-      </Provider>
-    );
-  }
-}
+export default StorybookUI;
+//
+// const middlewares = [];
+//
+// if (process.env.NODE_ENV === `development`) {
+//   const { logger } = require(`redux-logger`);
+//
+//   middlewares.push(logger);
+// }
+//
+// const store = compose(applyMiddleware(...middlewares))(createStore)(rootReducer);
+//
+// export default class App extends React.Component {
+//   render() {
+//     return (
+//       <Provider store={store}>
+//         {/* <RoutineContainer /> */}
+//         <HangboardTimerLocal />
+//       </Provider>
+//     );
+//   }
+// }
