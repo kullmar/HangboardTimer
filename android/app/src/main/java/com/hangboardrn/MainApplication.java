@@ -1,4 +1,4 @@
-package com.hangboardtimer;
+package com.hangboardrn;
 
 import android.app.Application;
 

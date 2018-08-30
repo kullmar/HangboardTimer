@@ -65,8 +65,9 @@ class HangboardSound extends Component {
   }
 
   releaseSounds() {
-    for (const sound in Object.values(this.sounds)) {
-      sound.release();
+    for (const [key, soundObj] of Object.entries(this.sounds)) {
+      soundObj.release();
+      console.log(`Released sound: ${key}`);
     }
   }
 
