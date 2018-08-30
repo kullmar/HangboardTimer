@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 class UpdateBaseline extends Component {
   constructor(props) {
@@ -32,6 +33,12 @@ class UpdateBaseline extends Component {
 }
 
 export default UpdateBaseline;
+
+UpdateBaseline.propTypes = {
+  grip: PropTypes.string,
+  baseline: PropTypes.number,
+  onSave: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
   container: {
