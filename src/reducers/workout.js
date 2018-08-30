@@ -10,6 +10,7 @@ const initialState = {
   currentSet: 1,
   currentRep: 1,
   resting: false,
+  showUpdateBaseline: false,
 };
 
 const workout = (state = initialState, action) => {

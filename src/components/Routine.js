@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
-import Set from './Set';
+import EditSet from './EditSet';
 import PropTypes from 'prop-types';
 
 const Routine = ({ routine }) => {
   const sets = routine.sets.map((set, index) => (
-    <Set set={set} key={index} />
+    <EditSet set={set} key={index} />
   ));
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{routine.name}</Text>
       <Text style={styles.subtitle}>{routine.board}</Text>
       {sets}
@@ -28,7 +28,8 @@ Routine.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   set: {
 

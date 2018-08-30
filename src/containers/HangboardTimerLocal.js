@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
@@ -118,7 +118,8 @@ class HangboardTimerLocal extends Component {
     const timeInSeconds = Math.ceil(timeRemaining / 1000);
 
     return(
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Text style={{ fontWeight: 'bold' }}>{this.props.routine.name}</Text>
         <Timer
           time={timeRemaining}
           active={active}
