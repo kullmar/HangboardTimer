@@ -1,3 +1,6 @@
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import  { persistReducer } from 'redux-persist';
 import { TIMER_COMPLETE, SET_SKIP, SET_PREVIOUS, BASELINE_UPDATE } from '../actions';
 import { createRoutine } from '../utils';
 
@@ -49,9 +52,15 @@ const workout = (state = initialState, action) => {
   }
 };
 
-export default workout;
-
 export const getCurrentSet = state => state.routine.sets[state.currentSet - 1];
-
 export const getInitialTime = state => state.routine.sets[state.currentSet].hangTime;
+
+const persistConfig = {
+  key: 'workout',
+  storage: storage,
+  stateReconciler: autoMergeLevel2,
+  whitelist: ['routine'],
+};
+
+export default persistReducer(persistConfig, workout);
 
