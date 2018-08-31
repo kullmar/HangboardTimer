@@ -6,6 +6,7 @@ import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
 import HangboardControls from '../components/HangboardControls';
 import HangboardSound from '../components/HangboardSound';
+import VisibleUpdateBaseline from './VisibleUpdateBaseline';
 import { getExercise } from '../utils';
 
 class HangboardTimerLocal extends Component {
@@ -14,9 +15,6 @@ class HangboardTimerLocal extends Component {
     const { routine } = this.props;
     const exercise = getExercise(routine, 1);
     this.state = {
-      currentRep: 1,
-      currentSet: 1,
-      resting: false,
       timeRemaining: exercise.hangTime,
     };
   }
@@ -37,18 +35,18 @@ class HangboardTimerLocal extends Component {
 
   getCurrentExercise() {
     const { routine } = this.props;
-    const { currentSet } = this.state;
+    const { currentSet } = this.props;
     return getExercise(routine, currentSet);
   }
 
   getNextTime() {
-    const { currentRep, currentSet } = this.state;
     const exercise = this.getCurrentExercise();
-    if (!this.state.resting) {
+    const { currentRep, currentSet } = this.props;
+    if (!this.props.resting) {
       return currentRep === exercise.reps ? exercise.finalRest : exercise.restTime;
     }
-    const nextSet = this.shouldIncrementSet() ? currentSet + 1 : currentSet;
-    return getExercise(this.props.routine, nextSet).hangTime;
+    const nextSetIndex = this.shouldIncrementSet() ? currentSet + 1 : currentSet;
+    return getExercise(this.props.routine, nextSetIndex).hangTime;
   }
 
   isTimeZero() {
@@ -56,27 +54,22 @@ class HangboardTimerLocal extends Component {
   }
 
   shouldIncrementSet() {
-    const { currentRep } = this.state;
+    const { currentRep, resting } = this.props;
     const exercise = this.getCurrentExercise();
-    return currentRep % exercise.reps === 0;
+    return currentRep % exercise.reps === 0 && resting;
   }
 
   handlePrevious = () => {
+    this.props.previousSet();
     this.setState({
-      currentRep: 1,
-      resting: false,
       timeRemaining: this.getCurrentExercise().hangTime,
     });
   }
 
   handleSkip = () => {
-    const exercise = this.getCurrentExercise();
-    const currentRep = exercise.reps;
-    const timeRemaining = exercise.finalRest;
+    this.props.skipSet();
     this.setState({
-      currentRep,
-      resting: true,
-      timeRemaining,
+      timeRemaining: this.getCurrentExercise().finalRest,
     });
   }
 
@@ -86,12 +79,10 @@ class HangboardTimerLocal extends Component {
     this.interval = setInterval(() => {
       if (this.isTimeZero()) {
         this.stop();
-        this.setState(prevState => ({
-          currentRep: this.shouldIncrementSet() ? 1 : prevState.currentRep + 1,
-          currentSet: this.shouldIncrementSet() ? prevState.currentSet + 1 : prevState.currentSet,
+        this.setState({
           timeRemaining: this.getNextTime(),
-          resting: !prevState.resting,
-        }));
+        });
+        this.props.completeTimer();
         this.start();
       }
       this.tick();
@@ -128,6 +119,7 @@ class HangboardTimerLocal extends Component {
         <HangboardTextContainer />
         <HangboardControls onNextSet={this.handleSkip} onPreviousSet={this.handlePrevious} />
         <HangboardSound seconds={timeInSeconds} active={active} />
+        <VisibleUpdateBaseline />
       </View>
     )
   }
@@ -136,10 +128,13 @@ class HangboardTimerLocal extends Component {
 const mapStateToProps = state => {
   const {
     timer: { active },
-    workout: { routine },
+    workout: { currentRep, currentSet, resting, routine },
   } = state;
   return {
     active,
+    currentRep,
+    currentSet,
+    resting,
     routine,
   };
 };

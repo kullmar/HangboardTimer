@@ -31,6 +31,8 @@ export const completeTimer = () => ({
  */
 export const SET_SKIP = 'SET_SKIP';
 export const SET_PREVIOUS = 'SET_PREVIOUS';
+export const SET_COMPLETE = 'SET_COMPLETE';
+export const BASELINE_UPDATE = 'UPDATE_BASELINE';
 
 /**
  * Training action creators
@@ -40,4 +42,12 @@ export const skipSet = () => ({
 });
 export const previousSet = () => ({
   type: SET_PREVIOUS,
+});
+export const completeSet = () => ({
+  type: SET_COMPLETE
+});
+export const updateBaseline = (id, baseline) => ({
+  type: BASELINE_UPDATE,
+  baseline,
+  id,
 });

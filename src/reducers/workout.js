@@ -1,4 +1,4 @@
-import { TIMER_COMPLETE, SET_SKIP, SET_PREVIOUS } from '../actions';
+import { TIMER_COMPLETE, SET_SKIP, SET_PREVIOUS, BASELINE_UPDATE } from '../actions';
 import { createRoutine } from '../utils';
 
 import defaultProfile from '../profiles/intermediate.json';
@@ -17,26 +17,31 @@ const workout = (state = initialState, action) => {
   const set = getCurrentSet(state);
   switch(action.type) {
     case TIMER_COMPLETE:
-      if (!state.resting) {
-        return ({
-          ...state,
-          resting: !state.resting,
-        });
-      }
-      const shouldIncrementSet = state.currentRep % set.reps === 0 ? true : false;
-      const newRep = shouldIncrementSet ? 1 : state.currentRep % set.reps + 1;
+      const isLastRep = state.currentRep % set.reps === 0;
+      const shouldIncrementSet = isLastRep && state.resting;
+      const newRep = shouldIncrementSet ? 1 : state.resting ? state.currentRep + 1 : state.currentRep;
       const newSet = shouldIncrementSet ? state.currentSet + 1 : state.currentSet;
+      const showUpdateBaseline = isLastRep && !state.resting;
       return ({
         ...state,
         currentRep: newRep,
         currentSet: newSet,
         resting: !state.resting,
+        showUpdateBaseline,
       });
     case SET_SKIP:
       return({
         ...state,
         currentRep: set.reps,
         resting: true,
+      });
+    case BASELINE_UPDATE:
+      let newRoutine = {...state.routine};
+      newRoutine.sets[action.id].weight = action.baseline;
+      return ({
+        ...state,
+        routine: newRoutine,
+        showUpdateBaseline: false,
       });
     case SET_PREVIOUS:
     default:
@@ -46,7 +51,7 @@ const workout = (state = initialState, action) => {
 
 export default workout;
 
-const getCurrentSet = state => state.routine.sets[state.currentSet - 1];
+export const getCurrentSet = state => state.routine.sets[state.currentSet - 1];
 
 export const getInitialTime = state => state.routine.sets[state.currentSet].hangTime;
 

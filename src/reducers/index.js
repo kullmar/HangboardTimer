@@ -8,3 +8,4 @@ export default combineReducers({
 });
 
 export const getInitialTime = state => fromWorkout.getInitialTime(state.workout);
+export const getCurrentSet = state => fromWorkout.getCurrentSet(state.workout);

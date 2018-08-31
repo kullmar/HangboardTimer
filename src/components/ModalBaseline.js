@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { Button, View, Text, StyleSheet, Modal } from 'react-native';
 import PropTypes from 'prop-types';
 
-class UpdateBaseline extends Component {
+class ModalBaseline extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,22 +19,29 @@ class UpdateBaseline extends Component {
     const { grip, baseline, onSave } = this.props;
     return (
       <View style={styles.container}>
-        <Text>Grip: {grip}</Text>
-        <Text>Current baseline: {baseline}</Text>
-        <View style={styles.adjustBaseline}>
-          <Text>New baseline: </Text>
-          <Button title="-" onPress={() => this.handleChange(-5)} />
-          <Text style={styles.newBaselineText}>{this.state.newBaseline}</Text>
-          <Button title="+" onPress={() => this.handleChange(5)}/>
-        </View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          onRequestClose={() => onSave(this.state.newBaseline)}
+        >
+          <Text>Grip: {grip}</Text>
+          <Text>Current baseline: {baseline}</Text>
+          <View style={styles.adjustBaseline}>
+            <Text>New baseline: </Text>
+            <Button title="-" onPress={() => this.handleChange(-5)} />
+            <Text style={styles.newBaselineText}>{this.state.newBaseline}</Text>
+            <Button title="+" onPress={() => this.handleChange(5)}/>
+          </View>
+          <Button title="OK" onPress={() => onSave(this.state.newBaseline)} />
+        </Modal>
       </View>
     );
   }
 }
 
-export default UpdateBaseline;
+export default ModalBaseline;
 
-UpdateBaseline.propTypes = {
+ModalBaseline.propTypes = {
   grip: PropTypes.string,
   baseline: PropTypes.number,
   onSave: PropTypes.func,
