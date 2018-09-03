@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet } from '../actions';
+import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet, failSet } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
@@ -57,6 +57,13 @@ class HangboardTimerLocal extends Component {
     const { currentRep, resting } = this.props;
     const exercise = this.getCurrentExercise();
     return currentRep % exercise.reps === 0 && resting;
+  }
+
+  handleFailure = () => {
+    this.props.failSet();
+    this.setState({
+      timeRemaining: this.getCurrentExercise().hangTime,
+    });
   }
 
   handlePrevious = () => {
@@ -143,6 +150,7 @@ export default connect(
   mapStateToProps,
   {
     completeTimer,
+    failSet,
     setTimer,
     skipSet,
     tick: tickTimer,

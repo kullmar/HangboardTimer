@@ -32,6 +32,7 @@ export const completeTimer = () => ({
 export const SET_SKIP = 'SET_SKIP';
 export const SET_PREVIOUS = 'SET_PREVIOUS';
 export const SET_COMPLETE = 'SET_COMPLETE';
+export const SET_FAIL = 'SET_FAIL';
 export const BASELINE_UPDATE = 'UPDATE_BASELINE';
 
 /**
@@ -50,4 +51,7 @@ export const updateBaseline = (id, baseline) => ({
   type: BASELINE_UPDATE,
   baseline,
   id,
+});
+export const failSet = () => ({
+  type: SET_FAIL,
 });
