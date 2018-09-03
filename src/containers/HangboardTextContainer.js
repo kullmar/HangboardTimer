@@ -11,9 +11,13 @@ const mapStateToProps = state => {
   const { baselineIncrementPerSet } = routine;
   const weight = baseline + (currentSet - 1) * baselineIncrementPerSet;
   const sets = exercise.sets;
-  const nextExercise = getExercise(routine, currentExercise + 1);
-  const nextGrip = nextExercise.grip;
-  const nextWeight = nextExercise.baseline + currentSet * baselineIncrementPerSet;
+  const nextSet =
+    currentSet < sets ? exercise : getExercise(routine, currentExercise + 1);
+  const nextGrip = nextSet.grip;
+  const nextWeight =
+    nextSet === exercise
+      ? baseline + currentSet * baselineIncrementPerSet
+      : nextSet.baseline;
   return {
     currentRep,
     currentSet,
@@ -22,11 +26,11 @@ const mapStateToProps = state => {
     nextWeight,
     totalReps: getNumberOfReps(state),
     totalSets: sets,
-    weight,
+    weight
   };
-}
+};
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(HangboardText);

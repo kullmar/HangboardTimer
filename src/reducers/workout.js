@@ -54,7 +54,7 @@ const workout = (state = initialState, action) => {
       };
     case BASELINE_UPDATE:
       let newRoutine = { ...state.routine };
-      newRoutine.exercise[action.id].baseline = action.baseline;
+      newRoutine.exercises[action.id].baseline = action.baseline;
       return {
         ...state,
         routine: newRoutine,

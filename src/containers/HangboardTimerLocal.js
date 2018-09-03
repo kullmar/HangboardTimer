@@ -44,9 +44,8 @@ class HangboardTimerLocal extends Component {
 
   getNextTime() {
     const { hangTime, restTime, finalRest } = this.props.routine;
-    const { currentRep } = this.props;
     if (!this.props.resting) {
-      return currentRep === this.getNumberOfReps() ? finalRest : restTime;
+      return this.props.currentRep === this.getNumberOfReps() ? finalRest : restTime;
     }
     return hangTime;
   }
@@ -54,7 +53,7 @@ class HangboardTimerLocal extends Component {
   getNumberOfReps() {
     const { routine } = this.props;
     return routine.repsBase -
-    (routine.currentSet - 1) * routine.repsDecrementPerSet;
+    (this.props.currentSet - 1) * routine.repsDecrementPerSet;
   }
 
   isTimeZero() {
