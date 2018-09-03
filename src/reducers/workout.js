@@ -24,6 +24,7 @@ const workout = (state = initialState, action) => {
   switch (action.type) {
     case TIMER_COMPLETE:
       const isLastRep = state.currentRep % getNumberOfReps(state) === 0;
+      const isLastSet = state.currentSet % exercise.sets === 0;
       const shouldIncrementSet = isLastRep && state.resting;
       const newRep = shouldIncrementSet
         ? 1
@@ -34,10 +35,10 @@ const workout = (state = initialState, action) => {
         ? (state.currentSet % exercise.sets) + 1
         : state.currentSet;
       const newExercise =
-        shouldIncrementSet && newSet === 1
+        shouldIncrementSet && isLastSet
           ? state.currentExercise + 1
           : state.currentExercise;
-      const showUpdateBaseline = isLastRep && !state.resting;
+      const showUpdateBaseline = isLastRep && isLastSet && !state.resting;
       return {
         ...state,
         currentExercise: newExercise,
