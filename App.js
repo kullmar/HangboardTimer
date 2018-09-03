@@ -45,6 +45,9 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    navigationOptions: {
+      title: 'Hangboard Timer',
+    },
   }
 );
 
