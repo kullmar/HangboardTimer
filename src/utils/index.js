@@ -4,7 +4,7 @@
  * @param  {[type]} setNumber [description]
  * @return {[type]}           [description]
  */
-export const getExercise = (routine, setNumber) => routine.sets[setNumber - 1];
+export const getExercise = (routine, exerciseNo) => routine.exercises[exerciseNo - 1];
 
 /**
  * Creates a hangboard routine from a template

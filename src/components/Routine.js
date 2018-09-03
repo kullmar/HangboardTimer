@@ -1,17 +1,29 @@
 import React from 'react';
-import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import { ScrollView, Text, StyleSheet } from 'react-native';
 import EditSet from './EditSet';
 import PropTypes from 'prop-types';
 
 const Routine = ({ routine }) => {
-  const sets = routine.sets.map((set, index) => (
-    <EditSet set={set} key={index} />
-  ));
+  const { repsBase, hangTime, restTime, finalRest } = routine;
+  const exercises = routine.exercises.map((exercise, index) => {
+    const { grip, baseline, sets } = exercise;
+    return (
+    <EditSet
+      grip={grip}
+      baseline={baseline}
+      sets={sets}
+      reps={repsBase}
+      hangTime={hangTime}
+      restTime={restTime}
+      finalRest={finalRest}
+      key={index}
+    />
+  )});
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{routine.name}</Text>
       <Text style={styles.subtitle}>{routine.board}</Text>
-      {sets}
+      {exercises}
     </ScrollView>
   );
 };

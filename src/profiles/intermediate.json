@@ -1,46 +1,57 @@
 {
   "name": "Intermediate Hangboard Routine",
   "board": "Beastmaker 1000",
-  "sets": 2,
   "hangTime": 7000,
   "restTime": 3000,
-  "warmupSets": 1,
+  "repsBase": 7,
+  "repsDecrementPerSet": 1,
+  "baselineIncrementPerSet": 5,
+  "finalRest": 180000,
   "exercises": [
     {
       "baseline": 15,
-      "grip": "Warm-up jug"
+      "grip": "Warm-up jug",
+      "sets": 1
     },
     {
       "baseline": 10,
-      "grip": "Large open-hand edge"
+      "grip": "Large open-hand edge",
+      "sets": 2
     },
     {
       "baseline": -5,
-      "grip": "MR 1-pad 2F pocket"
+      "grip": "MR 1-pad 2F pocket",
+      "sets": 2
     },
     {
       "baseline": -15,
-      "grip": "Small half crimp"
+      "grip": "Small half crimp",
+      "sets": 2
     },
     {
       "baseline": -5,
-      "grip": "Sloper"
+      "grip": "Sloper",
+      "sets": 2
     },
     {
       "baseline": -10,
-      "grip": "IM 2-pad 2F pocket"
+      "grip": "IM 2-pad 2F pocket",
+      "sets": 2
     },
     {
       "baseline": -15,
-      "grip": "IMR half crimp"
+      "grip": "IMR half crimp",
+      "sets": 2
     },
     {
       "baseline": 5,
-      "grip": "IMR 2-pad 3F pocket"
+      "grip": "IMR 2-pad 3F pocket",
+      "sets": 2
     },
     {
       "baseline": -15,
-      "grip": "Medium open-hand edge"
+      "grip": "Medium open-hand edge",
+      "sets": 2
     }
   ]
 }

@@ -1,23 +1,26 @@
 import { connect } from 'react-redux';
 import HangboardText from '../components/HangboardText';
 import { getExercise } from '../utils';
+import { getNumberOfReps } from '../reducers';
 
 const mapStateToProps = state => {
   const { workout } = state;
-  const { currentRep, currentSet, routine } = workout;
-  const exercise = getExercise(routine, currentSet);
-  const { grip, weight, reps } = exercise;
-  const sets = routine.sets.length;
-  const nextExercise = getExercise(routine, currentSet + 1);
+  const { currentExercise, currentRep, currentSet, routine } = workout;
+  const exercise = getExercise(routine, currentExercise);
+  const { grip, baseline } = exercise;
+  const { baselineIncrementPerSet } = routine;
+  const weight = baseline + (currentSet - 1) * baselineIncrementPerSet;
+  const sets = exercise.sets;
+  const nextExercise = getExercise(routine, currentExercise + 1);
   const nextGrip = nextExercise.grip;
-  const nextWeight = nextExercise.weight;
+  const nextWeight = nextExercise.baseline + currentSet * baselineIncrementPerSet;
   return {
     currentRep,
     currentSet,
     grip,
     nextGrip,
     nextWeight,
-    totalReps: reps,
+    totalReps: getNumberOfReps(state),
     totalSets: sets,
     weight,
   };

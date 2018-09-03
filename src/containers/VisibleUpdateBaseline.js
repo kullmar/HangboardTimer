@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCurrentSet } from '../reducers';
+import { getCurrentExercise } from '../reducers';
 import ModalBaseline from '../components/ModalBaseline';
 import { updateBaseline } from '../actions';
 
@@ -25,13 +25,14 @@ const VisibleUpdateBaseline = ({
 
 export default connect(
   state => {
-    const exercise = getCurrentSet(state);
-    const { weight, grip } = exercise;
-    const { showUpdateBaseline, currentSet } = state.workout;
+    const exercise = getCurrentExercise(state);
+    console.log(exercise);
+    const { baseline, grip } = exercise;
+    const { showUpdateBaseline, currentExercise } = state.workout;
     return {
-      baseline: weight,
+      baseline,
       grip,
-      id: currentSet - 1,
+      id: currentExercise - 1,
       showUpdateBaseline
     };
   },

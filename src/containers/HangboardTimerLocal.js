@@ -12,10 +12,13 @@ import { getExercise } from '../utils';
 class HangboardTimerLocal extends Component {
   constructor(props) {
     super(props);
-    const { routine } = this.props;
-    const exercise = getExercise(routine, 1);
+    const {
+      routine: {
+        hangTime
+      }
+    } = this.props;
     this.state = {
-      timeRemaining: exercise.hangTime,
+      timeRemaining: hangTime,
     };
   }
 
@@ -35,18 +38,23 @@ class HangboardTimerLocal extends Component {
 
   getCurrentExercise() {
     const { routine } = this.props;
-    const { currentSet } = this.props;
-    return getExercise(routine, currentSet);
+    const { currentExercise } = this.props;
+    return getExercise(routine, currentExercise);
   }
 
   getNextTime() {
-    const exercise = this.getCurrentExercise();
-    const { currentRep, currentSet } = this.props;
+    const { hangTime, restTime, finalRest } = this.props.routine;
+    const { currentRep } = this.props;
     if (!this.props.resting) {
-      return currentRep === exercise.reps ? exercise.finalRest : exercise.restTime;
+      return currentRep === this.getNumberOfReps() ? finalRest : restTime;
     }
-    const nextSetIndex = this.shouldIncrementSet() ? currentSet + 1 : currentSet;
-    return getExercise(this.props.routine, nextSetIndex).hangTime;
+    return hangTime;
+  }
+
+  getNumberOfReps() {
+    const { routine } = this.props;
+    return routine.repsBase -
+    (routine.currentSet - 1) * routine.repsDecrementPerSet;
   }
 
   isTimeZero() {
@@ -135,10 +143,11 @@ class HangboardTimerLocal extends Component {
 const mapStateToProps = state => {
   const {
     timer: { active },
-    workout: { currentRep, currentSet, resting, routine },
+    workout: { currentRep, currentSet, currentExercise, resting, routine },
   } = state;
   return {
     active,
+    currentExercise,
     currentRep,
     currentSet,
     resting,
