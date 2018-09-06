@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, Text, StyleSheet } from 'react-native';
-import EditSet from './EditSet';
+import EditExercise from './EditExercise';
 import PropTypes from 'prop-types';
 
 const Routine = ({ routine }) => {
@@ -8,17 +8,18 @@ const Routine = ({ routine }) => {
   const exercises = routine.exercises.map((exercise, index) => {
     const { grip, baseline, sets } = exercise;
     return (
-    <EditSet
-      grip={grip}
-      baseline={baseline}
-      sets={sets}
-      reps={repsBase}
-      hangTime={hangTime}
-      restTime={restTime}
-      finalRest={finalRest}
-      key={index}
-    />
-  )});
+      <EditExercise
+        grip={grip}
+        baseline={baseline}
+        sets={sets}
+        reps={repsBase}
+        hangTime={hangTime}
+        restTime={restTime}
+        finalRest={finalRest}
+        key={index}
+      />
+    );
+  });
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{routine.name}</Text>
@@ -34,18 +35,16 @@ Routine.propTypes = {
   routine: PropTypes.shape({
     name: PropTypes.string,
     board: PropTypes.string,
-    sets: PropTypes.array,
+    sets: PropTypes.array
   })
 };
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
-  set: {
-
-  },
+  set: {},
   title: {
     fontWeight: 'bold'
   }

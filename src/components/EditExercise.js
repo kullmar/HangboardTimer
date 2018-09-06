@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-class EditSet extends Component {
+class EditExercise extends Component {
   constructor(props) {
     super(props);
     const { grip, hangTime, restTime, finalRest, reps, sets, baseline } = this.props;
@@ -36,7 +36,7 @@ class EditSet extends Component {
     )
   }
 }
-export default EditSet;
+export default EditExercise;
 
 const styles = StyleSheet.create({
   container: {

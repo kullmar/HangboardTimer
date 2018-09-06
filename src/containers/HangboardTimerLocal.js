@@ -7,6 +7,7 @@ import HangboardTextContainer from './HangboardTextContainer';
 import HangboardControls from '../components/HangboardControls';
 import HangboardSound from '../components/HangboardSound';
 import VisibleUpdateBaseline from './VisibleUpdateBaseline';
+import Countdown from '../components/Countdown';
 import { getExercise } from '../utils';
 
 class HangboardTimerLocal extends Component {
@@ -18,6 +19,7 @@ class HangboardTimerLocal extends Component {
       }
     } = this.props;
     this.state = {
+      inCountdown: false,
       timeRemaining: hangTime,
     };
   }
@@ -32,7 +34,7 @@ class HangboardTimerLocal extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.active !== this.props.active) {
-      this.props.active ? this.start() : this.stop();
+      this.props.active ? this.setState({ inCountdown: true }) : this.stop();
     }
   }
 
@@ -87,7 +89,13 @@ class HangboardTimerLocal extends Component {
     });
   }
 
-  start() {
+  renderCountdown() {
+    if (!this.state.inCountdown) return null;
+    return <Countdown seconds={5} onFinished={this.start} />
+  }
+
+  start = () => {
+    this.setState({ inCountdown: false });
     if (this.interval) return;
     this.lastActionAt = Date.now();
     this.interval = setInterval(() => {
@@ -103,7 +111,12 @@ class HangboardTimerLocal extends Component {
     }, 50);
   }
 
+  startCountdown() {
+
+  }
+
   stop() {
+    this.setState({ inCountdown: false });
     if (!this.interval) return;
     clearInterval(this.interval)
     this.interval = null;
@@ -125,6 +138,7 @@ class HangboardTimerLocal extends Component {
     return(
       <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
         <Text style={{ fontWeight: 'bold' }}>{this.props.routine.name}</Text>
+        {this.renderCountdown()}
         <Timer
           time={timeRemaining}
           active={active}
