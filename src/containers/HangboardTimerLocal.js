@@ -111,10 +111,6 @@ class HangboardTimerLocal extends Component {
     }, 50);
   }
 
-  startCountdown() {
-
-  }
-
   stop() {
     this.setState({ inCountdown: false });
     if (!this.interval) return;
