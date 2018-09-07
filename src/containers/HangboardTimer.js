@@ -10,7 +10,7 @@ import VisibleUpdateBaseline from './VisibleUpdateBaseline';
 import Countdown from '../components/Countdown';
 import { getExercise } from '../utils';
 
-class HangboardTimerLocal extends Component {
+class HangboardTimer extends Component {
   constructor(props) {
     super(props);
     const {
@@ -174,4 +174,4 @@ export default connect(
     tick: tickTimer,
     toggleTimer,
   },
-)(HangboardTimerLocal);
+)(HangboardTimer);

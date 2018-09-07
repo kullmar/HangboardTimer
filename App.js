@@ -3,7 +3,7 @@ import { Button, View } from 'react-native';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './src/reducers';
-import HangboardTimerLocal from './src/containers/HangboardTimerLocal';
+import HangboardTimer from './src/containers/HangboardTimer';
 import RoutineContainer from './src/containers/RoutineContainer';
 import { createStackNavigator } from 'react-navigation';
 import { createLogger } from 'redux-logger'
@@ -41,7 +41,7 @@ const RootStack = createStackNavigator(
   {
     Home: Home,
     Routine: RoutineContainer,
-    Workout: HangboardTimerLocal,
+    Workout: HangboardTimer,
   },
   {
     initialRouteName: 'Home',
