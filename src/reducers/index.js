@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import timer from './timer';
 import workout, * as fromWorkout from './workout';
+import sound from './sound';
 
 export default combineReducers({
+  sound,
   timer,
   workout,
 });

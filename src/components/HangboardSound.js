@@ -55,6 +55,7 @@ class HangboardSound extends Component {
         return;
       }
       console.log(`Sound loaded: ${soundKey}`);
+      console.log(soundObj);
       this.sounds[soundKey] = soundObj;
     });
   }

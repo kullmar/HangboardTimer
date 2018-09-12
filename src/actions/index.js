@@ -55,3 +55,16 @@ export const updateBaseline = (id, baseline) => ({
 export const failSet = () => ({
   type: SET_FAIL,
 });
+
+/**
+ * Sound actions
+ */
+export const SOUND_PLAY = 'SOUND_PLAY';
+
+/**
+ * Sound action creators
+ */
+export const playSound = (sound) => ({
+  type: SOUND_PLAY,
+  sound,
+});
