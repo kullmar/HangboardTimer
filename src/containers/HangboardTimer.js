@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet, failSet } from '../actions';
+import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet, failSet, queueSound } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
@@ -142,7 +142,7 @@ class HangboardTimer extends Component {
         />
         <HangboardTextContainer />
         <HangboardControls onNextSet={this.handleSkip} onPreviousSet={this.handlePrevious} />
-        <HangboardSound seconds={timeInSeconds} active={active} />
+        <HangboardSound seconds={timeInSeconds} active={active} queueSound={this.props.queueSound} />
         <VisibleUpdateBaseline />
       </View>
     )
@@ -169,6 +169,7 @@ export default connect(
   {
     completeTimer,
     failSet,
+    queueSound,
     setTimer,
     skipSet,
     tick: tickTimer,

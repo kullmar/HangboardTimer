@@ -1,4 +1,4 @@
-import { SOUND_PLAY } from '../actions';
+import { SOUND_PLAY, SOUND_QUEUE } from '../actions';
 
 const SOUNDS = {
   one: 'one.wav',
@@ -16,6 +16,11 @@ const initialState = {
 const sound = (state = initialState, action) => {
   switch(action.type) {
     case SOUND_PLAY:
+      return ({
+        ...state,
+        soundQueue: state.soundQueue.slice(1),
+      });
+    case SOUND_QUEUE:
       return ({
         ...state,
         soundQueue: [...state.soundQueue, action.sound]

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import rootReducer from './src/reducers';
 import HangboardTimer from './src/containers/HangboardTimer';
 import RoutineContainer from './src/containers/RoutineContainer';
+import SoundPlayer from './src/containers/SoundPlayer';
 import { createStackNavigator } from 'react-navigation';
 import { createLogger } from 'redux-logger'
 
@@ -32,6 +33,7 @@ class Home extends React.Component {
       <View>
         <Button title="Routine" onPress={() => this.props.navigation.navigate('Routine')} />
         <Button title="Workout" onPress={() => this.props.navigation.navigate('Workout')} />
+        <SoundPlayer />
       </View>
     );
   }

@@ -59,12 +59,16 @@ export const failSet = () => ({
 /**
  * Sound actions
  */
+export const SOUND_QUEUE = 'SOUND_QUEUE';
 export const SOUND_PLAY = 'SOUND_PLAY';
 
 /**
  * Sound action creators
  */
-export const playSound = (sound) => ({
-  type: SOUND_PLAY,
+export const queueSound = sound => ({
+  type: SOUND_QUEUE,
   sound,
+});
+export const playSound = () => ({
+  type: SOUND_PLAYED,
 });
