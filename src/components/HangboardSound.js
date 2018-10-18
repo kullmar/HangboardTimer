@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { SOUND_ID_ONE, SOUND_ID_TWO, SOUND_ID_THREE, SOUND_ID_TICK } from '../constants';
+import { SOUND_ID_ONE, SOUND_ID_TWO, SOUND_ID_THREE, SOUND_ID_THIRTY, SOUND_ID_TICK } from '../constants';
 
 class HangboardSound extends Component {
   componentDidMount() {
@@ -7,25 +7,31 @@ class HangboardSound extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    let { seconds } = this.props;
     if (
       prevProps.seconds !== this.props.seconds ||
       (this.isFirstSound && prevProps.active !== this.props.active)
     ) {
-      this.isFirstSound = false;
-      if (this.props.seconds > 10 || this.props.seconds <= 0) return;
-      switch (this.props.seconds) {
-        case 3:
-          this.playSound(SOUND_ID_THREE);
-          break;
-        case 2:
-          this.playSound(SOUND_ID_TWO);
-          break;
-        case 1:
-          this.playSound(SOUND_ID_ONE);
-          break;
-        default:
-          this.playSound(SOUND_ID_TICK);
+      let soundToBePlayed;
+      if (seconds === 30) {
+        soundToBePlayed = SOUND_ID_THIRTY;
       }
+      else if (seconds === 3) {
+        soundToBePlayed = SOUND_ID_THREE;
+      }
+      else if (seconds === 2) {
+        soundToBePlayed = SOUND_ID_TWO;
+      }
+      else if (seconds === 1) {
+        soundToBePlayed = SOUND_ID_ONE;
+      }
+      else if (seconds > 3 && seconds < 10) {
+        soundToBePlayed = SOUND_ID_TICK;
+      }
+      else {
+        return;
+      }
+      this.playSound(soundToBePlayed);
     }
   }
 

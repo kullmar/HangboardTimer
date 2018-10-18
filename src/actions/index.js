@@ -60,7 +60,7 @@ export const failSet = () => ({
  * Sound actions
  */
 export const SOUND_QUEUE = 'SOUND_QUEUE';
-export const SOUND_PLAY = 'SOUND_PLAY';
+export const SOUND_REMOVE = 'SOUND_REMOVE';
 
 /**
  * Sound action creators
@@ -69,6 +69,7 @@ export const queueSound = sound => ({
   type: SOUND_QUEUE,
   sound,
 });
-export const playSound = () => ({
-  type: SOUND_PLAYED,
+export const removeSound = sound => ({
+  type: SOUND_REMOVE,
+  sound,
 });

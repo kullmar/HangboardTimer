@@ -33,7 +33,6 @@ class Home extends React.Component {
       <View>
         <Button title="Routine" onPress={() => this.props.navigation.navigate('Routine')} />
         <Button title="Workout" onPress={() => this.props.navigation.navigate('Workout')} />
-        <SoundPlayer />
       </View>
     );
   }
@@ -57,7 +56,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <RootStack />
+        <View style={{ flex: 1 }}>
+          <RootStack />
+          <SoundPlayer />
+        </View>
       </Provider>
     );
   }
