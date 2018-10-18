@@ -3,6 +3,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { persistReducer } from 'redux-persist';
 import {
   TIMER_COMPLETE,
+  SET_FAST_FORWARD,
   SET_SKIP,
   SET_PREVIOUS,
   BASELINE_UPDATE
@@ -19,49 +20,86 @@ const initialState = {
   showUpdateBaseline: false
 };
 
+const getNextStateFromComplete = state => {
+  const isLastRep = state.currentRep % getNumberOfReps(state) === 0;
+  const exercise = getCurrentExercise(state);
+  const isLastSet = state.currentSet % exercise.sets === 0;
+  const shouldIncrementSet = isLastRep && state.resting;
+  const newRep = shouldIncrementSet
+    ? 1
+    : state.resting
+      ? state.currentRep + 1
+      : state.currentRep;
+  const newSet = shouldIncrementSet
+    ? (state.currentSet % exercise.sets) + 1
+    : state.currentSet;
+  const newExercise =
+    shouldIncrementSet && isLastSet
+      ? state.currentExercise + 1
+      : state.currentExercise;
+  const showUpdateBaseline = isLastRep && isLastSet && !state.resting;
+  return {
+    ...state,
+    currentExercise: newExercise,
+    currentRep: newRep,
+    currentSet: newSet,
+    resting: !state.resting,
+    showUpdateBaseline
+  };
+}
+
+const getNextStateFromSkip = state => {
+const exercise = getCurrentExercise(state);
+const isLastSet = state.currentSet % exercise.sets === 0;
+const newSet = isLastSet ? 1 : state.currentSet + 1;
+const newExercise = isLastSet ? state.currentExercise + 1 : state.currentExercise;
+  return {
+    ...state,
+    currentExercise: newExercise,
+    currentRep: 1,
+    currentSet: newSet,
+    resting: false,
+  }
+};
+
+const getNextStateFromFastForward = state => ({
+  ...state,
+  currentRep: getNumberOfReps(state),
+  resting: true,
+  showUpdateBaseline: true,
+});
+
+const getNextStateFromPrevious = state => ({
+  ...state,
+  currentRep: 1,
+  currentSet: Math.max(state.currentSet - 1, 1),
+  resting: false,
+});
+
 const workout = (state = initialState, action) => {
   const exercise = getCurrentExercise(state);
   switch (action.type) {
     case TIMER_COMPLETE:
-      const isLastRep = state.currentRep % getNumberOfReps(state) === 0;
-      const isLastSet = state.currentSet % exercise.sets === 0;
-      const shouldIncrementSet = isLastRep && state.resting;
-      const newRep = shouldIncrementSet
-        ? 1
-        : state.resting
-          ? state.currentRep + 1
-          : state.currentRep;
-      const newSet = shouldIncrementSet
-        ? (state.currentSet % exercise.sets) + 1
-        : state.currentSet;
-      const newExercise =
-        shouldIncrementSet && isLastSet
-          ? state.currentExercise + 1
-          : state.currentExercise;
-      const showUpdateBaseline = isLastRep && isLastSet && !state.resting;
-      return {
-        ...state,
-        currentExercise: newExercise,
-        currentRep: newRep,
-        currentSet: newSet,
-        resting: !state.resting,
-        showUpdateBaseline
-      };
+      return getNextStateFromComplete(state);
+      break;
+    case SET_FAST_FORWARD:
+      return getNextStateFromFastForward(state);
+      break;
     case SET_SKIP:
-      return {
-        ...state,
-        currentRep: getNumberOfReps(state),
-        resting: true
-      };
+      return getNextStateFromSkip(state);
+      break;
+    case SET_PREVIOUS:
+      return getNextStateFromPrevious(state);
+      break;
     case BASELINE_UPDATE:
       let newRoutine = { ...state.routine };
       newRoutine.exercises[action.id].baseline = action.baseline;
       return {
         ...state,
         routine: newRoutine,
-        showUpdateBaseline: false
+        showUpdateBaseline: false,
       };
-    case SET_PREVIOUS:
+      break;
     default:
       return state;
   }
