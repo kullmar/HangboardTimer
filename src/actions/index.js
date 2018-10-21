@@ -29,8 +29,8 @@ export const completeTimer = () => ({
 /**
  * Training actions
  */
-export const SET_SKIP = 'SET_SKIP';
-export const SET_PREVIOUS = 'SET_PREVIOUS';
+export const EXERCISE_SKIP = 'EXERCISE_SKIP';
+export const EXERCISE_PREVIOUS = 'EXERCISE_PREVIOUS';
 export const SET_COMPLETE = 'SET_COMPLETE';
 export const SET_FAST_FORWARD = 'SET_FAST_FORWARD';
 export const BASELINE_UPDATE = 'UPDATE_BASELINE';
@@ -38,11 +38,11 @@ export const BASELINE_UPDATE = 'UPDATE_BASELINE';
 /**
  * Training action creators
  */
-export const skipSet = () => ({
-  type: SET_SKIP,
+export const skipExercise = () => ({
+  type: EXERCISE_SKIP,
 });
-export const previousSet = () => ({
-  type: SET_PREVIOUS,
+export const previousExercise = () => ({
+  type: EXERCISE_PREVIOUS,
 });
 export const completeSet = () => ({
   type: SET_COMPLETE

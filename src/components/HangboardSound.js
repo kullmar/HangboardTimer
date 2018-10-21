@@ -35,10 +35,6 @@ class HangboardSound extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.releaseSounds();
-  }
-
   playSound(soundId) {
     this.props.queueSound(soundId);
   }

@@ -4,8 +4,8 @@ import { persistReducer } from 'redux-persist';
 import {
   TIMER_COMPLETE,
   SET_FAST_FORWARD,
-  SET_SKIP,
-  SET_PREVIOUS,
+  EXERCISE_SKIP,
+  EXERCISE_PREVIOUS,
   BASELINE_UPDATE
 } from '../actions';
 
@@ -49,17 +49,14 @@ const getNextStateFromComplete = state => {
 }
 
 const getNextStateFromSkip = state => {
-const exercise = getCurrentExercise(state);
-const isLastSet = state.currentSet % exercise.sets === 0;
-const newSet = isLastSet ? 1 : state.currentSet + 1;
-const newExercise = isLastSet ? state.currentExercise + 1 : state.currentExercise;
+  const exercise = getCurrentExercise(state);
   return {
     ...state,
-    currentExercise: newExercise,
+    currentExercise: Math.min(state.currentExercise + 1, state.routine.exercises.length),
     currentRep: 1,
-    currentSet: newSet,
+    currentSet: 1,
     resting: false,
-  }
+  };
 };
 
 const getNextStateFromFastForward = state => ({
@@ -72,7 +69,8 @@ const getNextStateFromFastForward = state => ({
 const getNextStateFromPrevious = state => ({
   ...state,
   currentRep: 1,
-  currentSet: Math.max(state.currentSet - 1, 1),
+  currentSet: 1,
+  currentExercise: Math.max(state.currentExercise - 1, 1),
   resting: false,
 });
 
@@ -85,10 +83,10 @@ const workout = (state = initialState, action) => {
     case SET_FAST_FORWARD:
       return getNextStateFromFastForward(state);
       break;
-    case SET_SKIP:
+    case EXERCISE_SKIP:
       return getNextStateFromSkip(state);
       break;
-    case SET_PREVIOUS:
+    case EXERCISE_PREVIOUS:
       return getNextStateFromPrevious(state);
       break;
     case BASELINE_UPDATE:

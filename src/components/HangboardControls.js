@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
-const HangboardControls = ({ onPreviousSet, onNextSet }) => (
+const HangboardControls = ({ onpreviousExercise, onNextSet }) => (
   <View style={styles.container}>
-    <Button onPress={onPreviousSet} title="Previous set"></Button>
+    <Button onPress={onpreviousExercise} title="Previous set"></Button>
     <Button onPress={onNextSet} title="Next set"></Button>
   </View>
 );

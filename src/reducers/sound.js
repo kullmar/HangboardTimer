@@ -4,11 +4,12 @@ const SOUNDS = {
   one: 'one.wav',
   two: 'two.wav',
   three: 'three.wav',
+  thirty: '30sec.wav',
   tick: 'tick.wav',
 };
 
 const initialState = {
-  basePath: '../assets/sounds/',
+  basePath: 'assets/sounds/ut2003/evil/',
   soundQueue: [],
 };
 

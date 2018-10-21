@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { toggleTimer, tickTimer, setTimer, completeTimer, skipSet, failSet, queueSound } from '../actions';
+import { toggleTimer, tickTimer, setTimer, completeTimer, skipExercise, failSet, queueSound, previousExercise } from '../actions';
 import { connect } from 'react-redux';
 import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
@@ -76,16 +76,18 @@ class HangboardTimer extends Component {
   }
 
   handlePrevious = () => {
-    this.props.previousSet();
+    this.props.previousExercise();
+    this.stop();
     this.setState({
-      timeRemaining: this.getCurrentExercise().hangTime,
+      timeRemaining: this.props.routine.hangTime,
     });
   }
 
   handleSkip = () => {
-    this.props.skipSet();
+    this.props.skipExercise();
+    this.stop();
     this.setState({
-      timeRemaining: this.getCurrentExercise().finalRest,
+      timeRemaining: this.props.routine.hangTime,
     });
   }
 
@@ -112,6 +114,9 @@ class HangboardTimer extends Component {
   }
 
   stop() {
+    if (this.props.active) {
+      this.props.toggleTimer();
+    }
     this.setState({ inCountdown: false });
     if (!this.interval) return;
     clearInterval(this.interval)
@@ -141,7 +146,7 @@ class HangboardTimer extends Component {
           onToggle={this.props.toggleTimer}
         />
         <HangboardTextContainer />
-        <HangboardControls onNextSet={this.handleSkip} onPreviousSet={this.handlePrevious} />
+        <HangboardControls onNextSet={this.handleSkip} onpreviousExercise={this.handlePrevious} />
         <HangboardSound seconds={timeInSeconds} active={active} queueSound={this.props.queueSound} />
         <VisibleUpdateBaseline />
       </View>
@@ -169,9 +174,10 @@ export default connect(
   {
     completeTimer,
     failSet,
+    previousExercise,
     queueSound,
     setTimer,
-    skipSet,
+    skipExercise,
     tick: tickTimer,
     toggleTimer,
   },
