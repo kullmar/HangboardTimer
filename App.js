@@ -30,7 +30,7 @@ const store = compose(applyMiddleware(...middlewares))(createStore)(rootReducer)
 class Home extends React.Component {
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <Button title="Routine" onPress={() => this.props.navigation.navigate('Routine')} />
         <Button title="Workout" onPress={() => this.props.navigation.navigate('Workout')} />
       </View>

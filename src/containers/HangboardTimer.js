@@ -77,7 +77,7 @@ class HangboardTimer extends Component {
 
   handlePrevious = () => {
     this.props.previousExercise();
-    this.stop();
+    this.stopAndPause();
     this.setState({
       timeRemaining: this.props.routine.hangTime,
     });
@@ -85,7 +85,7 @@ class HangboardTimer extends Component {
 
   handleSkip = () => {
     this.props.skipExercise();
-    this.stop();
+    this.stopAndPause();
     this.setState({
       timeRemaining: this.props.routine.hangTime,
     });
@@ -114,13 +114,17 @@ class HangboardTimer extends Component {
   }
 
   stop() {
-    if (this.props.active) {
-      this.props.toggleTimer();
-    }
     this.setState({ inCountdown: false });
     if (!this.interval) return;
     clearInterval(this.interval)
     this.interval = null;
+  }
+
+  stopAndPause() {
+    this.stop();
+    if (this.props.active) {
+      this.props.toggleTimer();
+    }
   }
 
   tick() {
