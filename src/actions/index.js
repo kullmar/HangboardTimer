@@ -1,4 +1,22 @@
 /**
+ * Routine actions
+ */
+export const ROUTINE_ADD = 'ROUTINE_ADD';
+export const ROUTINE_DELETE = 'ROUTINE_DELETE';
+
+/**
+ * Routine action creators
+ */
+export const addRoutine = id => {
+  type: ROUTINE_ADD,
+  id,
+}
+exprot const deleteRoutine = id => {
+  type: ROUTINE_DELETE,
+  id,
+};
+
+/**
  * Timer actions
  */
 export const TIMER_SET = 'TIMER_SET';

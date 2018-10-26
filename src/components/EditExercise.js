@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+x§import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 class EditExercise extends Component {
@@ -22,11 +22,20 @@ class EditExercise extends Component {
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <Text>Grip: </Text>
-          <TextInput style={styles.input} onChangeText={(text) => this.setState({ grip: text })} value={grip} />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => this.setState({ grip: text })}
+            value={grip}
+          />
         </View>
         <View style={styles.inputContainer}>
           <Text>Hang time: </Text>
-          <TextInput style={styles.input} keyboardType="numeric" onChangeText={(text) => this.setState({ grip: text })} value={hangTime} />
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            onChangeText={(text) => this.setState({ grip: text })}
+            value={hangTime}
+          />
         </View>
         <Text>Rest time: {restTime / 1000}</Text>
         <Text>Final rest: {finalRest / 1000}</Text>
