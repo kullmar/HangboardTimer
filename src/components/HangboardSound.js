@@ -3,39 +3,49 @@ import { SOUND_ID_ONE, SOUND_ID_TWO, SOUND_ID_THREE, SOUND_ID_THIRTY, SOUND_ID_T
 
 class HangboardSound extends Component {
   componentDidMount() {
-    this.isFirstSound = true;
+    this.playSound(this.getCurrentSound());
   }
 
   componentDidUpdate(prevProps) {
-    let { seconds } = this.props;
-    if (
-      prevProps.seconds !== this.props.seconds ||
-      (this.isFirstSound && prevProps.active !== this.props.active)
-    ) {
-      let soundToBePlayed;
-      if (seconds === 30) {
-        soundToBePlayed = SOUND_ID_THIRTY;
-      }
-      else if (seconds === 3) {
-        soundToBePlayed = SOUND_ID_THREE;
-      }
-      else if (seconds === 2) {
-        soundToBePlayed = SOUND_ID_TWO;
-      }
-      else if (seconds === 1) {
-        soundToBePlayed = SOUND_ID_ONE;
-      }
-      else if (seconds > 3 && seconds < 10) {
-        soundToBePlayed = SOUND_ID_TICK;
-      }
-      else {
-        return;
-      }
-      this.playSound(soundToBePlayed);
+    if (prevProps.seconds !== this.props.seconds) {
+      this.playSound(this.getCurrentSound());
     }
   }
 
+  getCurrentSound() {
+    let { seconds } = this.props;
+    let soundId;
+    switch(seconds) {
+      case 30:
+        soundId = SOUND_ID_THIRTY;
+        break;
+      case 10:
+      case 9:
+      case 8:
+      case 7:
+      case 6:
+      case 5:
+      case 4:
+        soundId = SOUND_ID_TICK;
+        break;
+      case 3:
+        soundId = SOUND_ID_THREE;
+        break;
+      case 2:
+        soundId = SOUND_ID_TWO;
+        break;
+      case 1:
+        soundId = SOUND_ID_ONE;
+        break;
+      default:
+        soundId = null;
+        break;
+      }
+    return soundId;
+  }
+
   playSound(soundId) {
+    if (!soundId) return;
     this.props.queueSound(soundId);
   }
 

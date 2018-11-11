@@ -3,7 +3,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { persistReducer } from 'redux-persist';
 import {
   TIMER_COMPLETE,
-  SET_FAST_FORWARD,
+  SET_FAIL,
   EXERCISE_SKIP,
   EXERCISE_PREVIOUS,
   BASELINE_UPDATE
@@ -18,6 +18,29 @@ const initialState = {
   currentRep: 1,
   resting: false,
   showUpdateBaseline: false
+};
+
+const workout = (state = initialState, action) => {
+  switch (action.type) {
+    case TIMER_COMPLETE:
+      return getNextStateFromComplete(state);
+    case SET_FAIL:
+      return getNextStateFromFail(state);
+    case EXERCISE_SKIP:
+      return getNextStateFromSkip(state);
+    case EXERCISE_PREVIOUS:
+      return getNextStateFromPrevious(state);
+    case BASELINE_UPDATE:
+      let newRoutine = { ...state.routine };
+      newRoutine.exercises[action.id].baseline = action.baseline;
+      return {
+        ...state,
+        routine: newRoutine,
+        showUpdateBaseline: false,
+      };
+    default:
+      return state;
+  }
 };
 
 const getNextStateFromComplete = state => {
@@ -59,7 +82,7 @@ const getNextStateFromSkip = state => {
   };
 };
 
-const getNextStateFromFastForward = state => ({
+const getNextStateFromFail = state => ({
   ...state,
   currentRep: getNumberOfReps(state),
   resting: true,
@@ -73,35 +96,6 @@ const getNextStateFromPrevious = state => ({
   currentExercise: Math.max(state.currentExercise - 1, 1),
   resting: false,
 });
-
-const workout = (state = initialState, action) => {
-  const exercise = getCurrentExercise(state);
-  switch (action.type) {
-    case TIMER_COMPLETE:
-      return getNextStateFromComplete(state);
-      break;
-    case SET_FAST_FORWARD:
-      return getNextStateFromFastForward(state);
-      break;
-    case EXERCISE_SKIP:
-      return getNextStateFromSkip(state);
-      break;
-    case EXERCISE_PREVIOUS:
-      return getNextStateFromPrevious(state);
-      break;
-    case BASELINE_UPDATE:
-      let newRoutine = { ...state.routine };
-      newRoutine.exercises[action.id].baseline = action.baseline;
-      return {
-        ...state,
-        routine: newRoutine,
-        showUpdateBaseline: false,
-      };
-      break;
-    default:
-      return state;
-  }
-};
 
 export const getNumberOfReps = state =>
   state.routine.repsBase -

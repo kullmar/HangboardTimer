@@ -21,12 +21,12 @@ const HangboardText = ({
       <Text>
         Rep: {currentRep}/{totalReps}
       </Text>
-      <Text>Weight: {weight}</Text>
+      <Text>Weight: {weight > 0 ? `+${weight}` : weight}</Text>
     </View>
     <View style={styles.innerContainerSecondary}>
       <Text style={styles.title}>Next set</Text>
       <Text>Grip: {nextGrip}</Text>
-      <Text>Weight: {nextWeight}</Text>
+      <Text>Weight: {nextWeight > 0 ? `+${nextWeight}` : nextWeight}</Text>
     </View>
   </View>
 );

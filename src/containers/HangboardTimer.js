@@ -71,7 +71,7 @@ class HangboardTimer extends Component {
   handleFailure = () => {
     this.props.failSet();
     this.setState({
-      timeRemaining: this.getCurrentExercise().hangTime,
+      timeRemaining: this.props.routine.finalRest,
     });
   }
 
@@ -89,11 +89,6 @@ class HangboardTimer extends Component {
     this.setState({
       timeRemaining: this.props.routine.hangTime,
     });
-  }
-
-  renderCountdown() {
-    if (!this.state.inCountdown) return null;
-    return <Countdown seconds={5} onFinished={this.start} />
   }
 
   start = () => {
@@ -138,7 +133,6 @@ class HangboardTimer extends Component {
   render() {
     const { active } = this.props;
     const { timeRemaining } = this.state;
-    const timeInSeconds = Math.ceil(timeRemaining / 1000);
 
     return(
       <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -150,18 +144,47 @@ class HangboardTimer extends Component {
           onToggle={this.props.toggleTimer}
         />
         <HangboardTextContainer />
-        <HangboardControls onNextSet={this.handleSkip} onpreviousExercise={this.handlePrevious} />
-        <HangboardSound seconds={timeInSeconds} active={active} queueSound={this.props.queueSound} />
+        <HangboardControls
+          onNextSet={this.handleSkip}
+          onpreviousExercise={this.handlePrevious}
+          onFailSet={this.handleFailure}
+        />
+        {this.renderSound()}
         <VisibleUpdateBaseline />
       </View>
     )
+  }
+
+  renderCountdown() {
+    if (!this.state.inCountdown) return null;
+    return <Countdown seconds={5} onFinished={this.start} />
+  }
+
+  renderSound() {
+    if (this.props.active && !this.state.inCountdown) {
+      const { timeRemaining } = this.state;
+      const timeInSeconds = Math.ceil(timeRemaining / 1000);
+      return (
+        <HangboardSound
+          seconds={timeInSeconds}
+          queueSound={this.props.queueSound}
+        />
+      );
+    }
+    return null;
   }
 }
 
 const mapStateToProps = state => {
   const {
     timer: { active },
-    workout: { currentRep, currentSet, currentExercise, resting, routine },
+    workout: {
+      currentRep,
+      currentSet,
+      currentExercise,
+      resting,
+      routine
+    },
   } = state;
   return {
     active,

@@ -7,14 +7,14 @@ export const ROUTINE_DELETE = 'ROUTINE_DELETE';
 /**
  * Routine action creators
  */
-export const addRoutine = id => {
+export const addRoutine = id => ({
   type: ROUTINE_ADD,
   id,
-}
-exprot const deleteRoutine = id => {
+});
+export const deleteRoutine = id => ({
   type: ROUTINE_DELETE,
   id,
-};
+});
 
 /**
  * Timer actions
@@ -50,7 +50,7 @@ export const completeTimer = () => ({
 export const EXERCISE_SKIP = 'EXERCISE_SKIP';
 export const EXERCISE_PREVIOUS = 'EXERCISE_PREVIOUS';
 export const SET_COMPLETE = 'SET_COMPLETE';
-export const SET_FAST_FORWARD = 'SET_FAST_FORWARD';
+export const SET_FAIL = 'SET_FAIL';
 export const BASELINE_UPDATE = 'UPDATE_BASELINE';
 
 /**
