@@ -72,7 +72,6 @@ const getNextStateFromComplete = state => {
 }
 
 const getNextStateFromSkip = state => {
-  const exercise = getCurrentExercise(state);
   return {
     ...state,
     currentExercise: Math.min(state.currentExercise + 1, state.routine.exercises.length),
