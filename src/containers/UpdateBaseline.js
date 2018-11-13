@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getCurrentExercise } from '../reducers';
-import ModalBaseline from '../components/ModalBaseline';
+import UpdateBaselineModal from '../components/UpdateBaselineModal';
 import { updateBaseline } from '../actions';
 
-const VisibleUpdateBaseline = ({
+const UpdateBaseline = ({
   showUpdateBaseline,
   baseline,
   grip,
@@ -15,7 +15,7 @@ const VisibleUpdateBaseline = ({
     return null;
   }
   return (
-    <ModalBaseline
+    <UpdateBaselineModal
       baseline={baseline}
       grip={grip}
       onSave={newBaseline => updateBaseline(id, newBaseline)}
@@ -26,7 +26,6 @@ const VisibleUpdateBaseline = ({
 export default connect(
   state => {
     const exercise = getCurrentExercise(state);
-    console.log(exercise);
     const { baseline, grip } = exercise;
     const { showUpdateBaseline, currentExercise } = state.workout;
     return {
@@ -39,4 +38,4 @@ export default connect(
   {
     updateBaseline
   }
-)(VisibleUpdateBaseline);
+)(UpdateBaseline);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, Modal } from 'react-native';
 import PropTypes from 'prop-types';
 
-class ModalBaseline extends Component {
+class UpdateBaselineModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,9 +39,9 @@ class ModalBaseline extends Component {
   }
 }
 
-export default ModalBaseline;
+export default UpdateBaselineModal;
 
-ModalBaseline.propTypes = {
+UpdateBaselineModal.propTypes = {
   grip: PropTypes.string,
   baseline: PropTypes.number,
   onSave: PropTypes.func,

@@ -6,7 +6,7 @@ import Timer from '../components/Timer';
 import HangboardTextContainer from './HangboardTextContainer';
 import HangboardControls from '../components/HangboardControls';
 import HangboardSound from '../components/HangboardSound';
-import VisibleUpdateBaseline from './VisibleUpdateBaseline';
+import UpdateBaseline from './UpdateBaseline';
 import Countdown from '../components/Countdown';
 import { getExercise } from '../utils';
 
@@ -150,7 +150,7 @@ class HangboardTimer extends Component {
           onFailSet={this.handleFailure}
         />
         {this.renderSound()}
-        <VisibleUpdateBaseline />
+        <UpdateBaseline />
       </View>
     )
   }
