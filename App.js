@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Button, ListItem } from 'react-native-elements';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './src/reducers';
@@ -30,9 +31,18 @@ const store = compose(applyMiddleware(...middlewares))(createStore)(rootReducer)
 class Home extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Button title="Routine" onPress={() => this.props.navigation.navigate('Routine')} />
-        <Button title="Workout" onPress={() => this.props.navigation.navigate('Workout')} />
+      <View>
+        <ListItem
+          key={'routine'}
+          title={'Routine'}
+          bottomDivider
+          onPress={() => this.props.navigation.navigate('Routine')}
+        />
+        <ListItem
+          key={'workout'}
+          title={'Workout'}
+          onPress={() => this.props.navigation.navigate('Workout')}
+        />
       </View>
     );
   }
@@ -63,4 +73,15 @@ export default class App extends React.Component {
       </Provider>
     );
   }
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    width: 100,
+  },
+});

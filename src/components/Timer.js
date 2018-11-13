@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Button, Text } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 const formatTime = (time) => {
@@ -24,7 +25,11 @@ export default function Timer({ time, active, onToggle }) {
       <Text style={[styles.text, !active && styles.resting]}>
         {timeFormatted}
       </Text>
-      <Button onPress={onToggle} title={active ? "Pause" : "Start"} />
+      <Button
+        onPress={onToggle}
+        title={active ? "Pause" : "Start"}
+        buttonStyle={styles.button}
+      />
     </View>
   );
 }
@@ -40,8 +45,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  button: {
+    borderRadius: 5,
+    width: 100,
+  },
   text: {
-    fontSize: 40,
+    fontSize: 60,
     color: 'green',
   },
   resting: {

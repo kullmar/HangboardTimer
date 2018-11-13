@@ -145,8 +145,8 @@ class HangboardTimer extends Component {
         />
         <HangboardTextContainer />
         <HangboardControls
-          onNextSet={this.handleSkip}
-          onpreviousExercise={this.handlePrevious}
+          onNextExercise={this.handleSkip}
+          onPreviousExercise={this.handlePrevious}
           onFailSet={this.handleFailure}
         />
         {this.renderSound()}

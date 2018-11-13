@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, Modal } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Button, Text, Overlay} from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 class UpdateBaselineModal extends Component {
@@ -18,11 +19,9 @@ class UpdateBaselineModal extends Component {
   render() {
     const { grip, baseline, onSave } = this.props;
     return (
-      <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          onRequestClose={() => onSave(this.state.newBaseline)}
+        <Overlay
+          isVisible
+          onBackdropPress={() => onSave(this.state.newBaseline)}
         >
           <Text>Grip: {grip}</Text>
           <Text>Current baseline: {baseline}</Text>
@@ -32,9 +31,12 @@ class UpdateBaselineModal extends Component {
             <Text style={styles.newBaselineText}>{this.state.newBaseline}</Text>
             <Button title="+" onPress={() => this.handleChange(5)}/>
           </View>
-          <Button title="OK" onPress={() => onSave(this.state.newBaseline)} />
-        </Modal>
-      </View>
+          <Button
+            title="Save"
+            buttonStyle={styles.saveButton}
+            onPress={() => onSave(this.state.newBaseline)}
+          />
+        </Overlay>
     );
   }
 }
@@ -49,13 +51,7 @@ UpdateBaselineModal.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1,
   },
   adjustBaseline: {
     flexDirection: 'row',
@@ -64,5 +60,8 @@ const styles = StyleSheet.create({
   },
   newBaselineText: {
     fontWeight: 'bold'
-  }
+  },
+  saveButton: {
+    width: 100,
+  },
 });
