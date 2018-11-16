@@ -1,21 +1,25 @@
-import { SOUND_REMOVE, SOUND_QUEUE } from '../actions';
+import { SOUND_DEQUEUE, SOUND_QUEUE } from '../actions';
 
 const SOUNDS = {
-  one: 'one.wav',
-  two: 'two.wav',
-  three: 'three.wav',
-  thirty: '30sec.wav',
+  announcerSounds: {
+    one: 'one.wav',
+    two: 'two.wav',
+    three: 'three.wav',
+    thirty: '30sec.wav',
+  },
   tick: 'tick.wav',
 };
 
 const initialState = {
-  basePath: 'assets/sounds/ut2003/evil/',
+  announcerPath: 'ut2003/evil/',
+  basePath: 'assets/sounds/',
   soundQueue: [],
+  sounds: SOUNDS,
 };
 
 const sound = (state = initialState, action) => {
   switch(action.type) {
-    case SOUND_REMOVE:
+    case SOUND_DEQUEUE:
       return ({
         ...state,
         soundQueue: state.soundQueue.slice(1),

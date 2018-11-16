@@ -4,12 +4,6 @@ import { connect } from 'react-redux';
 import { SOUND_ID_ONE, SOUND_ID_TWO, SOUND_ID_THREE, SOUND_ID_THIRTY, SOUND_ID_TICK } from '../constants';
 import { removeSound } from '../actions';
 
-import one from '../assets/sounds/one.wav';
-import two from '../assets/sounds/two.wav';
-import three from '../assets/sounds/three.wav';
-import thirty from '../assets/sounds/30sec.wav';
-import tick from '../assets/sounds/tick.wav';
-
 const soundsMapping = {
   [SOUND_ID_ONE]: one,
   [SOUND_ID_TWO]: two,
@@ -18,8 +12,15 @@ const soundsMapping = {
   [SOUND_ID_TICK]: tick,
 };
 
+async const importSound = path => {
+  import(path)
+    .then(sound => sound)
+    .catch(err => console.log(err));
+}
+
 class SoundPlayer extends Component {
   componentDidMount() {
+
     this.initializeSounds();
   }
 
@@ -34,11 +35,13 @@ class SoundPlayer extends Component {
     this.releaseAllSounds();
   }
 
-  initializeSounds() {
+  async initializeSounds() {
     Sound.setCategory('Playback');
     this.sounds = {};
-    for (const [key, soundFile] of Object.entries(soundsMapping)) {
-      this.loadSound(soundFile, key);
+    const { basePath, announcerPath } = this.props;
+    for (const [key, soundFile] of Object.entries(this.props.sounds.announcerSounds)) {
+      importSound(`../${basePath}${announcerPath}${soundFile}`)
+      .then(sound => this.loadSound(sound, key))
     }
   }
 
@@ -59,10 +62,6 @@ class SoundPlayer extends Component {
     const soundObj = this.sounds[soundId];
     if (!soundObj) return;
     soundObj.play();
-    // soundObj.stop(() => {
-    //   soundObj.play();
-    //   this.props.playSound(soundId);
-    // });
   }
 
   releaseAllSounds() {
@@ -79,7 +78,10 @@ class SoundPlayer extends Component {
 
 export default connect(
   state => ({
+    announcerPath: state.sound.announcerPath,
+    basePath: state.sound.basePath,
     pendingSounds: state.sound.soundQueue,
+    sounds: state.sound.sounds,
   }),
   {
     removeSound,
