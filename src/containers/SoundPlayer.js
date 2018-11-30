@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { removeSound } from '../actions';
 
 const importSound = path => {
-  import(path)
-    .then(sound => sound)
-    .catch(err => console.log(err));
+  return require(path);
 }
 
 class SoundPlayer extends Component {
