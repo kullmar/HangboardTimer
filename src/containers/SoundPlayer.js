@@ -1,18 +1,9 @@
 import { Component } from 'react';
 import Sound from 'react-native-sound';
 import { connect } from 'react-redux';
-import { SOUND_ID_ONE, SOUND_ID_TWO, SOUND_ID_THREE, SOUND_ID_THIRTY, SOUND_ID_TICK } from '../constants';
 import { removeSound } from '../actions';
 
-const soundsMapping = {
-  [SOUND_ID_ONE]: one,
-  [SOUND_ID_TWO]: two,
-  [SOUND_ID_THREE]: three,
-  [SOUND_ID_THIRTY]: thirty,
-  [SOUND_ID_TICK]: tick,
-};
-
-async const importSound = path => {
+const importSound = path => {
   import(path)
     .then(sound => sound)
     .catch(err => console.log(err));
