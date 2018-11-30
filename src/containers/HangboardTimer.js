@@ -9,6 +9,7 @@ import HangboardSound from '../components/HangboardSound';
 import UpdateBaseline from './UpdateBaseline';
 import Countdown from '../components/Countdown';
 import { getExercise } from '../utils';
+import KeepAwake from 'react-native-keep-awake';
 
 class HangboardTimer extends Component {
   constructor(props) {
@@ -151,6 +152,7 @@ class HangboardTimer extends Component {
         />
         {this.renderSound()}
         <UpdateBaseline />
+        <KeepAwake />
       </View>
     )
   }
