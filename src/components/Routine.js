@@ -4,7 +4,7 @@ import EditExercise from './EditExercise';
 import PropTypes from 'prop-types';
 
 const Routine = ({ routine }) => {
-  const { repsBase, hangTime, restTime, finalRest } = routine;
+  const { baseReps, hangTime, restTime, finalRest } = routine;
   const exercises = routine.exercises.map((exercise, index) => {
     const { grip, baseline, sets } = exercise;
     return (
@@ -12,7 +12,7 @@ const Routine = ({ routine }) => {
         grip={grip}
         baseline={baseline}
         sets={sets}
-        reps={repsBase}
+        reps={baseReps}
         hangTime={hangTime}
         restTime={restTime}
         finalRest={finalRest}
