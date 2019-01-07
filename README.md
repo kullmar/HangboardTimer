@@ -1,2 +1,2 @@
 # HangboardTimer
-A hangboard timer app for climbers written in react-native and redux.
+A hangboard timer app for climbers written in react-native and redux. Work in progress.
